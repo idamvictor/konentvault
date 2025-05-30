@@ -1,0 +1,59 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "author": {
+        "name": "Sarah Johnson",
+        "username": "@sarahjohnson",
+        "avatar": "/placeholder.svg?height=40&width=40",
+        "verified": true
+      },
+      "content": "Just finished an amazing photoshoot at the beach! The sunset lighting was absolutely perfect. Can't wait to share more behind-the-scenes content with you all! 📸✨",
+      "image": "/placeholder.svg?height=400&width=600",
+      "timestamp": "2 hours ago",
+      "likes": 234,
+      "comments": 18,
+      "shares": 5
+    },
+    {
+      "id": "2",
+      "author": {
+        "name": "Alex Chen",
+        "username": "@alexchen",
+        "avatar": "/placeholder.svg?height=40&width=40",
+        "verified": false
+      },
+      "content": "Working on some new creative projects this week. The process has been incredibly inspiring and I'm excited to share the results soon! 🎨",
+      "image": "/placeholder.svg?height=300&width=500",
+      "timestamp": "5 hours ago",
+      "likes": 156,
+      "comments": 12,
+      "shares": 3
+    },
+    {
+      "id": "3",
+      "author": {
+        "name": "Maya Rodriguez",
+        "username": "@mayarodriguez",
+        "avatar": "/placeholder.svg?height=40&width=40",
+        "verified": true
+      },
+      "content": "Throwback to last weekend's adventure in the mountains. Nature always provides the best inspiration for my work. What's your favorite place to find creativity?",
+      "image": "/placeholder.svg?height=350&width=550",
+      "timestamp": "1 day ago",
+      "likes": 389,
+      "comments": 45,
+      "shares": 12
+    }
+  ],
+  "user": {
+    "name": "Creative Hub",
+    "username": "@creativehub",
+    "avatar": "/placeholder.svg?height=80&width=80",
+    "followers": "12.5K",
+    "following": "1,234",
+    "posts": "567",
+    "bio": "Showcasing amazing creative content from talented artists worldwide. Join our community of creators! 🎨✨",
+    "verified": true
+  }
+}
