@@ -51,21 +51,25 @@ export default function PostCard({ post }: PostCardProps) {
             </Avatar>
             <div>
               <div className="flex items-center space-x-1">
-                <h3 className="font-semibold text-gray-900 text-sm">
+                <h3 className="font-semibold text-foreground text-sm">
                   {post.author.name}
                 </h3>
                 {post.author.verified && (
                   <CheckCircle
-                    className="w-4 h-4 text-blue-500"
+                    className="w-4 h-4 text-primary"
                     aria-label="Verified account"
                   />
                 )}
               </div>
-              <p className="text-xs text-gray-500">{post.author.username}</p>
+              <p className="text-xs text-muted-foreground">
+                {post.author.username}
+              </p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-gray-500">{post.timestamp}</span>
+            <span className="text-xs text-muted-foreground">
+              {post.timestamp}
+            </span>
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
               <MoreHorizontal className="w-4 h-4" />
             </Button>
@@ -74,7 +78,7 @@ export default function PostCard({ post }: PostCardProps) {
 
         {/* Post Content */}
         <div className="px-4 pb-3">
-          <p className="text-sm text-gray-900 leading-relaxed">
+          <p className="text-sm text-foreground leading-relaxed">
             {post.content}
           </p>
         </div>
@@ -94,7 +98,7 @@ export default function PostCard({ post }: PostCardProps) {
                 <div className="absolute top-3 right-3">
                   <Badge
                     variant="secondary"
-                    className="bg-black/70 text-white text-xs"
+                    className="bg-background/70 text-foreground text-xs"
                   >
                     <Play className="w-3 h-3 mr-1" />
                     {post.mediaCount}
@@ -106,13 +110,13 @@ export default function PostCard({ post }: PostCardProps) {
         )}
 
         {/* Post Actions */}
-        <div className="px-4 py-3 border-t border-gray-50">
+        <div className="px-4 py-3 border-t border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 px-2 text-gray-500 hover:text-red-500"
+                className="h-8 px-2 text-muted-foreground hover:text-destructive"
               >
                 <Heart className="w-4 h-4 mr-1" />
                 <span className="text-xs">{post.likes}</span>
@@ -121,7 +125,7 @@ export default function PostCard({ post }: PostCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 px-2 text-gray-500 hover:text-blue-500"
+                className="h-8 px-2 text-muted-foreground hover:text-primary"
               >
                 <MessageCircle className="w-4 h-4 mr-1" />
                 <span className="text-xs">{post.comments}</span>
@@ -130,7 +134,7 @@ export default function PostCard({ post }: PostCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 px-2 text-gray-500 hover:text-green-500"
+                className="h-8 px-2 text-muted-foreground hover:text-accent"
               >
                 <Share className="w-4 h-4 mr-1" />
                 <span className="text-xs">{post.shares}</span>

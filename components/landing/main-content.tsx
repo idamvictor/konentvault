@@ -7,16 +7,18 @@ export default async function MainContent() {
   const data = await getLandingPostsData();
 
   return (
-    <div className="p-4 space-y-4 bg-gray-50 min-h-screen">
+    <div className="p-4 space-y-4 bg-muted min-h-screen">
       {/* Feed Header */}
       <Card className="border-0 shadow-sm">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">OnlyFans</h2>
-              <p className="text-sm text-gray-500">@onlyfans</p>
+              <h2 className="text-lg font-semibold text-foreground">
+                OnlyFans
+              </h2>
+              <p className="text-sm text-muted-foreground">@onlyfans</p>
             </div>
-            <Badge variant="secondary" className="bg-blue-50 text-blue-600">
+            <Badge variant="secondary" className="bg-primary/10 text-primary">
               Featuring videos by OnlyFans Creators
             </Badge>
           </div>
@@ -33,7 +35,7 @@ export default async function MainContent() {
       {/* Load More */}
       <Card className="border-0 shadow-sm">
         <CardContent className="p-4 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             You&apos;ve reached the end of the feed
           </p>
         </CardContent>
