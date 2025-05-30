@@ -14,12 +14,12 @@ export default async function MainContent() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-foreground">
-                OnlyFans
+                Konentvault
               </h2>
-              <p className="text-sm text-muted-foreground">@onlyfans</p>
+              <p className="text-sm text-muted-foreground">@Konentvault</p>
             </div>
             <Badge variant="secondary" className="bg-primary/10 text-primary">
-              Featuring videos by OnlyFans Creators
+              Featuring videos by Konentvault Creators
             </Badge>
           </div>
         </CardContent>

@@ -1,22 +1,13 @@
 import {
   Home,
-  Search,
-  Bell,
-  Mail,
-  Bookmark,
-  User,
   Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navigationItems = [
-  { icon: Home, label: "Home", href: "/", active: true },
-  { icon: Search, label: "Explore", href: "/explore" },
-  { icon: Bell, label: "Notifications", href: "/notifications" },
-  { icon: Mail, label: "Messages", href: "/messages" },
-  { icon: Bookmark, label: "Bookmarks", href: "/bookmarks" },
-  { icon: User, label: "Profile", href: "/profile" },
+  { icon: Home, label: "Home", href: "/", active: '' },
+
   { icon: Settings, label: "More", href: "/settings" },
 ];
 
@@ -27,18 +18,24 @@ export default function Sidebar() {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="mb-8">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-sidebar-primary rounded-full flex items-center justify-center">
-            <span className="text-sidebar-primary-foreground font-bold text-sm">
-              OF
-            </span>
+      <div className="mt-auto pt-4  border-sidebar-border">
+        <div className="flex items-center space-x-3 mb-4">
+          <Avatar className="w-10 h-10">
+            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-sidebar-foreground truncate">
+              Your Account
+            </p>
+            <p className="text-xs text-sidebar-foreground/60 truncate">
+              @youraccount
+            </p>
           </div>
-          <h1 className="text-xl font-bold text-sidebar-foreground">
-            OnlyFans
-          </h1>
         </div>
       </div>
+
+      
 
       <ul className="space-y-1 flex-1">
         {navigationItems.map((item) => (
@@ -58,23 +55,6 @@ export default function Sidebar() {
           </li>
         ))}
       </ul>
-
-      <div className="mt-auto pt-4 border-t border-sidebar-border">
-        <div className="flex items-center space-x-3 mb-4">
-          <Avatar className="w-10 h-10">
-            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground truncate">
-              Your Account
-            </p>
-            <p className="text-xs text-sidebar-foreground/60 truncate">
-              @youraccount
-            </p>
-          </div>
-        </div>
-      </div>
     </nav>
   );
 }
