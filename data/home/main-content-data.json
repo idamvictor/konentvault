@@ -1,0 +1,83 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "author": {
+        "name": "Dani Daniels",
+        "username": "@danidaniels",
+        "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+        "verified": true
+      },
+      "content": "No ifs, ands, or butts - @danidaniels is the boss. With a speakeasy tucked behind her cafe and an art portfolio to match her digital empire, she takes @danidaniels on a cheeky stroll through the Museum of Sex before shaking things up with some expert-level cocktail crafting.",
+      "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=400&fit=crop",
+      "timestamp": "1 hour ago",
+      "likes": 23,
+      "comments": 5,
+      "shares": 2,
+      "mediaCount": 3
+    },
+    {
+      "id": "2",
+      "author": {
+        "name": "Dani Daniels",
+        "username": "@danidaniels",
+        "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+        "verified": true
+      },
+      "content": "@danidaniels indulges in irresistible Malibu bites under the sun, with warm sand beneath her feet and a salty ocean breeze in the air. This isn't just lunch—it's a sun-kissed escape by the sea. 🌊 😋",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop",
+      "timestamp": "10 hours ago",
+      "likes": 67,
+      "comments": 12,
+      "shares": 4,
+      "mediaCount": 1
+    },
+    {
+      "id": "3",
+      "author": {
+        "name": "Dani Daniels",
+        "username": "@danidaniels",
+        "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+        "verified": true
+      },
+      "content": "@elisamar and @danidaniels challenge their non-vegan friends @thefanvandaniels and @gabibuzz to a plant-based makeover. From skeptical bites to surprise favorites, they're dishing out vegan goodness and hilarious reactions. 🌱 😋",
+      "image": "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600&h=400&fit=crop",
+      "timestamp": "Yesterday",
+      "likes": 89,
+      "comments": 23,
+      "shares": 8,
+      "mediaCount": 2
+    }
+  ],
+  "user": {
+    "name": "OnlyFans",
+    "username": "@onlyfans",
+    "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    "coverImage": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=200&fit=crop",
+    "followers": "820.6K",
+    "following": "4.08M",
+    "posts": "3657",
+    "media": "3657",
+    "bio": "Featuring videos by OnlyFans Creators. See more: OnlyFans.com/OFTV",
+    "verified": true,
+    "subscriptionPrice": "FREE",
+    "isSubscribed": false
+  },
+  "suggestedCreators": [
+    {
+      "name": "DANI DANIELS",
+      "username": "@danidaniels",
+      "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face"
+    },
+    {
+      "name": "Casey B.",
+      "username": "@caseyb",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face"
+    },
+    {
+      "name": "Odia",
+      "username": "@odia",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face"
+    }
+  ]
+}

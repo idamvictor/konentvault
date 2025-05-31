@@ -1,6 +1,6 @@
-import postsData from "@/data/landing/main-content-data.json";
+import postsData from "@/data/home/main-content-data.json";
 
-export async function getLandingPostsData() {
+export async function getHomeFeeds() {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 100));
   return postsData;
