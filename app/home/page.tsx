@@ -2,20 +2,14 @@
 
 import MainContent from "@/components/home/main-content";
 import RightPanel from "@/components/home/right-panel";
-import Sidebar from "@/components/home/sidebar";
 import LoadingSkeleton from "@/components/skeletons/loading-skeleton";
 import { Suspense } from "react";
 
 export default function Landing() {
   return (
-    <div className="flex min-h-screen bg-background container mx-auto">
-      {/* Left Sidebar */}
-      <aside className="hidden lg:block w-[25%] bg-sidebar border-r border-sidebar-border fixed h-full z-10">
-        <Sidebar />
-      </aside>
-
+    <>
       {/* Main Content Area */}
-      <main className="flex-1  max-w-none">
+      <main className="flex-1 max-w-none">
         <div className="max-w-[50%] mx-auto">
           <Suspense fallback={<LoadingSkeleton />}>
             <MainContent />
@@ -49,6 +43,6 @@ export default function Landing() {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
