@@ -7,8 +7,10 @@ export default async function MainContent() {
   const data = await getHomeFeeds();
 
   return (
-    <div className="p-4 space-y-4 bg-muted min-h-screen">
-      <h1 className="text-2xl text-foreground">Home</h1>
+    <div className="px-4 space-y-4 bg-muted min-h-screen">
+      <div className="sticky top-0 z-10 -mx-4 px-4 py-3 bg-background/80 backdrop-blur-sm border-b">
+        <h1 className="text-2xl text-foreground">Home</h1>
+      </div>
 
       {/* Make Post */}
       <MakePost />
