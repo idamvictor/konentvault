@@ -10,7 +10,7 @@ export default function ConversationArea() {
           Select any Conversation or send a New Message
         </h2>
         <Button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full font-medium"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium"
           size="lg"
         >
           NEW MESSAGE

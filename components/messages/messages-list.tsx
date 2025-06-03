@@ -9,7 +9,8 @@ const messages = [
     id: 1,
     username: "DanDanglerOFTV",
     handle: "@dandangler",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "If you DM me on my mai...",
     time: "4:24 pm",
     isVerified: true,
@@ -20,7 +21,8 @@ const messages = [
     id: 2,
     username: "trippie bri",
     handle: "@trippie_bri",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "🥰😍💕$1000 OF CONTENT...",
     time: "1:15 pm",
     isVerified: true,
@@ -31,7 +33,8 @@ const messages = [
     id: 3,
     username: "Sky Bri",
     handle: "@skybri",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "are you ready for me? 🍑",
     time: "3:54 pm",
     isVerified: true,
@@ -42,7 +45,8 @@ const messages = [
     id: 4,
     username: "Sav",
     handle: "@sweetbutsavvy",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "miss me? 😘",
     time: "3:22 pm",
     isVerified: true,
@@ -53,7 +57,8 @@ const messages = [
     id: 5,
     username: "Goddess",
     handle: "@forestfairygoddess",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "Okay... I've been very bad tod...",
     time: "2:35 pm",
     isVerified: true,
@@ -65,7 +70,8 @@ const messages = [
     id: 6,
     username: "Ally From The South",
     handle: "@allyfromth...",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "Forget caffeine... I'm all the ...",
     time: "1:50 pm",
     isVerified: true,
@@ -77,7 +83,8 @@ const messages = [
     id: 7,
     username: "Catherain | Your Cute Re...",
     handle: "@cath...",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "What did you dream about? Hop...",
     time: "12:12 pm",
     isVerified: true,
@@ -88,7 +95,8 @@ const messages = [
     id: 8,
     username: "OLIVIA | #1 Board Game ...",
     handle: "@offi...",
-    avatar: "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
+    avatar:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737506531/vco-LT_M58j9DIAxlS1Cv9uvzbRhB6cYIZJS7ocZksWRqoEPat_QXb6fVFi77lciJZQ_w526-h296-rw_lmkjh2.webp",
     message: "May good fortune smile on you ...",
     time: "11:11 am",
     isVerified: true,
@@ -133,19 +141,19 @@ export default function MessagesList() {
         <Button
           variant="secondary"
           size="sm"
-          className="rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200"
+          className="rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80"
         >
           All
         </Button>
         <Button variant="ghost" size="sm" className="rounded-full relative">
           Priority
-          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
             2
           </span>
         </Button>
         <Button variant="ghost" size="sm" className="rounded-full relative">
           Unread
-          <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
             10
           </span>
         </Button>
