@@ -42,10 +42,18 @@ export default function Sidebar() {
       >
         <div className="flex-1">
           <div className="p-6">
-            <Avatar className="w-12 h-12 ring-2 ring-primary/10">
-              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
+            <div className="flex items-center space-x-4">
+              <Avatar className="w-12 h-12 ring-2 ring-primary/10">
+                <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
+                <AvatarFallback>U</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="text-[15px] font-semibold text-gray-900 truncate">
+                  Your Account
+                </p>
+                <p className="text-sm text-gray-500 truncate">@youraccount</p>
+              </div>
+            </div>
           </div>{" "}
           <ul className="space-y-1.5 px-3">
             {navigationItems.map((item) => (
@@ -78,20 +86,11 @@ export default function Sidebar() {
               </button>
             </li>
           </ul>
-        </div>
+        </div>{" "}
         <div className="p-5 mt-auto border-t border-gray-200">
-          <div className="flex items-center space-x-4">
-            <Avatar className="w-12 h-12 ring-2 ring-primary/10">
-              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-[15px] font-semibold text-gray-900 truncate">
-                Your Account
-              </p>
-              <p className="text-sm text-gray-500 truncate">@youraccount</p>
-            </div>
-          </div>
+          <button className="w-full bg-primary text-white rounded-full py-3 font-medium hover:bg-primary/90 transition-colors">
+            + NEW POST
+          </button>
         </div>{" "}
       </nav>
       <UserMenuModal isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
