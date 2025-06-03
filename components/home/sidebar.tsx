@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Home,
@@ -28,33 +28,33 @@ export default function Sidebar() {
 
   return (
     <nav
-      className="flex flex-col h-full bg-white"
+      className="flex flex-col h-full bg-white border-r border-gray-200 w-72"
       role="navigation"
       aria-label="Main navigation"
     >
       <div className="flex-1">
-        <div className="p-4">
-          <Avatar className="w-10 h-10">
+        <div className="p-6">
+          <Avatar className="w-12 h-12 ring-2 ring-primary/10">
             <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </div>
 
-        <ul className="space-y-1 px-2">
+        <ul className="space-y-1.5 px-3">
           {navigationItems.map((item) => (
             <li key={item.label}>
               <Link
                 href={item.href}
-                className={`relative flex items-center gap-x-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 ${
+                className={`relative flex items-center gap-x-4 px-4 py-3 rounded-xl text-[15px] transition-all duration-200 ${
                   pathname === item.href
-                    ? "bg-primary-100 text-primary-800 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-gray-700 hover:bg-gray-100/80"
                 }`}
               >
-                <item.icon className="w-5 h-5" aria-hidden="true" />
-                <span>{item.label}</span>
+                <item.icon className="w-6 h-6" aria-hidden="true" />
+                <span className="font-medium">{item.label}</span>
                 {item.badge && (
-                  <span className="absolute right-3 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-white">
+                  <span className="absolute right-4 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[12px] font-medium text-white">
                     {item.badge}
                   </span>
                 )}
@@ -64,19 +64,17 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      <div className="p-4 mt-auto border-t border-gray-200">
-        <div className="flex items-center space-x-3">
-          <Avatar className="w-10 h-10">
+      <div className="p-5 mt-auto border-t border-gray-200">
+        <div className="flex items-center space-x-4">
+          <Avatar className="w-12 h-12 ring-2 ring-primary/10">
             <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-[15px] font-semibold text-gray-900 truncate">
               Your Account
             </p>
-            <p className="text-xs text-gray-500 truncate">
-              @youraccount
-            </p>
+            <p className="text-sm text-gray-500 truncate">@youraccount</p>
           </div>
         </div>
       </div>
