@@ -10,7 +10,7 @@ export default function Landing() {
     <>
       {/* Main Content Area */}
       <main className="flex-1 max-w-none">
-        <div className="max-w-[50%] mx-auto">
+        <div className="">
           <Suspense fallback={<LoadingSkeleton />}>
             <MainContent />
           </Suspense>
@@ -18,7 +18,7 @@ export default function Landing() {
       </main>
 
       {/* Right Panel */}
-      <aside className="hidden lg:block w-[25%] bg-sidebar border-l border-sidebar-border fixed right-0 h-full z-10">
+      <aside className="hidden lg:block w-[25%] bg-sidebar border-l border-sidebar-border h-full z-10">
         <Suspense
           fallback={<div className="p-4 text-muted-foreground">Loading...</div>}
         >
