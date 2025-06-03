@@ -78,6 +78,20 @@ const expiredSubscriptions = [
     coverImage:
       "https://res.cloudinary.com/dyp8gtllq/image/upload/v1739222053/Mothers_20and_20their_20children_20_20at_20ANC_20clinic_20in_20Homa_20Bay_i25atg.jpg",
   },
+  {
+    name: "Luna Star",
+    username: "@lunastar_22",
+    avatar: "/placeholder.svg?height=60&width=60",
+    coverImage:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1739221358/e89ddd0960eee5c57ba98da220fd9ea5_mgyvdv.jpg",
+  },
+  {
+    name: "Dark Angel",
+    username: "@dark_angel",
+    avatar: "/placeholder.svg?height=60&width=60",
+    coverImage:
+      "https://res.cloudinary.com/dyp8gtllq/image/upload/v1739222053/Mothers_20and_20their_20children_20_20at_20ANC_20clinic_20in_20Homa_20Bay_i25atg.jpg",
+  },
 ];
 
 export default function RightPanel() {
