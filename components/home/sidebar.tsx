@@ -28,7 +28,7 @@ export default function Sidebar() {
 
   return (
     <nav
-      className="flex flex-col h-full bg-white border-r border-gray-200 w-72"
+      className="flex flex-col h-full bg-white w-full"
       role="navigation"
       aria-label="Main navigation"
     >

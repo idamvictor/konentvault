@@ -18,7 +18,7 @@ interface SuggestionCardProps {
 
 export function SuggestionCard({ suggestion }: SuggestionCardProps) {
   return (
-    <Card className="relative overflow-hidden">
+    <Card className="relative overflow-hidden p-0">
       <div className="h-24 relative">
         <Image
           src={

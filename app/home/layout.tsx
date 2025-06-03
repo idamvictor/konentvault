@@ -8,7 +8,7 @@ export default function Layout({
   return (
     <div className="flex min-h-screen bg-background container mx-auto">
       {/* Left Sidebar */}
-      <aside className="hidden lg:block w-[25%] bg-sidebar border-r border-sidebar-border fixed h-full z-10">
+      <aside className="hidden lg:block w-[25%] fixed h-full z-10">
         <Sidebar />
       </aside>
 
