@@ -1,10 +1,20 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import LoadingScreen from "@/components/loaders/loading-screen";
 
 export default function Home() {
-  return (
-    <>
-      <div className="text-red-500">hghghghgfh</div>
-      <Button>Click me</Button>
-    </>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    // Wait for 4 seconds (100% of loading progress) before redirecting
+    const timer = setTimeout(() => {
+      router.push("/landing");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
+  return <LoadingScreen />;
 }
