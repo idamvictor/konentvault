@@ -21,13 +21,13 @@ export default function LoadingScreen() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 flex flex-col items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle at 25px 25px, #000 2px, transparent 0), radial-gradient(circle at 75px 75px, #000 2px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 25px 25px, var(--color-foreground) 2px, transparent 0), radial-gradient(circle at 75px 75px, var(--color-foreground) 2px, transparent 0)`,
             backgroundSize: "100px 100px",
           }}
         />
@@ -41,10 +41,10 @@ export default function LoadingScreen() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-4xl font-extralight text-gray-800 mb-2 tracking-wider">
-            Konent<span className="font-light text-indigo-600">Vault</span>
+          <h1 className="text-4xl font-extralight text-foreground mb-2 tracking-wider">
+            Konent<span className="font-light text-primary">Vault</span>
           </h1>
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-indigo-300 to-transparent mx-auto mb-16" />
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mx-auto mb-16" />
         </motion.div>
 
         {/* Progress Container */}
@@ -52,12 +52,12 @@ export default function LoadingScreen() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl shadow-gray-200/50 border border-white/50"
+          className="bg-card/70 backdrop-blur-sm rounded-2xl p-8 shadow-xl shadow-primary/5 border border-border"
         >
           {/* Progress Bar */}
-          <div className="w-80 h-2 bg-gray-200/80 rounded-full overflow-hidden mb-4 shadow-inner">
+          <div className="w-80 h-2 bg-muted rounded-full overflow-hidden mb-4 shadow-inner">
             <motion.div
-              className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full shadow-sm"
+              className="h-full bg-gradient-to-r from-primary to-accent rounded-full shadow-sm"
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.1 }}
@@ -69,7 +69,7 @@ export default function LoadingScreen() {
             key={progress}
             initial={{ opacity: 0.7 }}
             animate={{ opacity: 1 }}
-            className="text-2xl font-light text-gray-700 mb-2"
+            className="text-2xl font-light text-card-foreground mb-2"
           >
             {progress}%
           </motion.div>
@@ -82,7 +82,7 @@ export default function LoadingScreen() {
               repeat: Number.POSITIVE_INFINITY,
               ease: "easeInOut",
             }}
-            className="text-gray-500 text-sm font-light tracking-wide"
+            className="text-muted-foreground text-sm font-light tracking-wide"
           >
             Loading your experience
           </motion.p>
@@ -93,7 +93,7 @@ export default function LoadingScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-gray-400 text-xs font-light mt-8 tracking-widest uppercase"
+          className="text-muted-foreground text-xs font-light mt-8 tracking-widest uppercase"
         >
           Your Content • Your Vault • Your Community
         </motion.p>
@@ -104,7 +104,7 @@ export default function LoadingScreen() {
         {[...Array(3)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-indigo-300/30 rounded-full"
+            className="absolute w-1 h-1 bg-primary/30 rounded-full"
             animate={{
               y: [-20, -100],
               opacity: [0, 1, 0],
