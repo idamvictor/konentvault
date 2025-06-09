@@ -5,11 +5,11 @@ import {
   MessageCircle,
   Bell,
   User,
-  Bookmark,
+  // Bookmark,
   Users,
   LayoutDashboard,
   Settings,
-  HelpCircle,
+  // HelpCircle,
   UserRoundPlus,
   LogOut,
 } from "lucide-react";
@@ -36,12 +36,12 @@ const mainNavigation = [
 
 const quickAccess = [
   { icon: User, label: "My Profile", href: "/creator/profile", badge: null },
-  {
-    icon: Bookmark,
-    label: "Bookmarks",
-    href: "/creator/bookmarks",
-    badge: null,
-  },
+  // {
+  //   icon: Bookmark,
+  //   label: "Bookmarks",
+  //   href: "/creator/bookmarks",
+  //   badge: null,
+  // },
   { icon: Users, label: "Referrals", href: "/creator/referrals", badge: null },
 ];
 
@@ -62,12 +62,12 @@ const finance = [
 
 const preferences = [
   { icon: Settings, label: "Settings", href: "/creator/settings", badge: null },
-  {
-    icon: HelpCircle,
-    label: "Help Center",
-    href: "/creator/help",
-    badge: null,
-  },
+  // {
+  //   icon: HelpCircle,
+  //   label: "Help Center",
+  //   href: "/creator/help",
+  //   badge: null,
+  // },
 ];
 
 export default function Sidebar() {
