@@ -25,7 +25,23 @@ export default function TopUser() {
       username: "User6898826197",
       handle: "@Regardstoy",
       subscriptions: 3,
+      spent: "$124K",
+    },
+    {
+      id: 3,
+      initials: "BC",
+      username: "User028378938",
+      handle: "@Boycoco1",
+      subscriptions: 6,
       spent: "$95K",
+    },
+    {
+      id: 4,
+      initials: "HO",
+      username: "User854876864",
+      handle: "@Habeeb08",
+      subscriptions: 5,
+      spent: "$85K",
     },
   ];
 
@@ -53,45 +69,45 @@ export default function TopUser() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {topUsers.map((user) => (
-          <Card
-            key={user.id}
-            className="relative overflow-hidden border-0 bg-gradient-to-r from-primary  to-primary/50 text-primary-foreground"
-          >
-            <CardContent className="p-4">
+          <Card key={user.id} className="relative overflow-hidden border-0">
+            <div className="absolute inset-0 bg-pink-50 z-0" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/50 opacity-100 top-[40%] z-10" />
+
+            <CardContent className="p-4 relative z-20">
               <div className="space-y-3">
                 {/* Avatar */}
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground font-bold text-lg border-2 border-primary/20 mx-auto">
+                <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold text-lg border-2 border-white/20 mx-auto">
                   {user.initials}
                 </div>
 
-                {/* Top Spender Badge */}
-                <div className="text-center">
-                  <Badge className="bg-accent text-accent-foreground font-semibold px-2 py-1 text-xs">
+                <div className="space-y-2 text-center">
+                  {/* Top Spender Badge */}
+                  <Badge className="bg-yellow-500 text-black font-semibold px-2 py-1 text-xs">
                     <Crown className="h-3 w-3 mr-1" />
                     TOP SPENDER
                   </Badge>
-                </div>
 
-                {/* User Info */}
-                <div className="text-center space-y-1">
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="font-semibold text-sm">
-                      {user.username}
-                    </span>
-                    <CheckCircle className="h-3 w-3 text-accent" />
+                  {/* User Info */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-center gap-1">
+                      <span className="font-semibold text-sm text-white">
+                        {user.username}
+                      </span>
+                      <CheckCircle className="h-3 w-3 text-blue-300" />
+                    </div>
+                    <p className="text-xs text-white/90">{user.handle}</p>
                   </div>
-                  <p className="text-xs opacity-90">{user.handle}</p>
-                </div>
 
-                {/* Stats */}
-                <div className="flex justify-center gap-3 text-xs">
-                  <div className="flex items-center gap-1">
-                    <span className="opacity-90">📧 SUBS</span>
-                    <span className="font-bold">{user.subscriptions}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="opacity-90">💰 SPENT</span>
-                    <span className="font-bold">{user.spent}</span>
+                  {/* Stats */}
+                  <div className="flex justify-center gap-3 text-xs text-white">
+                    <div className="flex items-center gap-1">
+                      <span className="opacity-90">📧 SUBS</span>
+                      <span className="font-bold">{user.subscriptions}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="opacity-90">💰 SPENT</span>
+                      <span className="font-bold">{user.spent}</span>
+                    </div>
                   </div>
                 </div>
               </div>
