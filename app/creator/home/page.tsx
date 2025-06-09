@@ -1,16 +1,18 @@
-import NotificationContent from "@/components/main/notifications/notification-content";
-import RightPanel from "@/components/main/home/right-panel";
-import LoadingSkeleton from "@/components/skeletons/loading-skeleton";
-import React, { Suspense } from "react";
+"use client";
 
-export default function NotificationsPage() {
+import MainContent from "@/components/creator/home/main-content";
+import RightPanel from "@/components/creator/home/right-panel";
+import LoadingSkeleton from "@/components/skeletons/loading-skeleton";
+import { Suspense } from "react";
+
+export default function Landing() {
   return (
     <>
       {/* Main Content Area */}
       <main className="flex-1 max-w-none">
         <div className="">
           <Suspense fallback={<LoadingSkeleton />}>
-            <NotificationContent />
+            <MainContent />
           </Suspense>
         </div>
       </main>

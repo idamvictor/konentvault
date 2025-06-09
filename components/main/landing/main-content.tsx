@@ -1,7 +1,7 @@
-import PostCard from "@/components/landing/post-card";
+import PostCard from "@/components/main/landing/post-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLandingPostsData } from "@/lib/landing/getLandingPostData";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
 
 export default async function MainContent() {
   const data = await getLandingPostsData();

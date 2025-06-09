@@ -1,7 +1,7 @@
 "use client";
 
-import MainContent from "@/components/home/main-content";
-import RightPanel from "@/components/home/right-panel";
+import MainContent from "@/components/main/home/main-content";
+import RightPanel from "@/components/main/home/right-panel";
 import LoadingSkeleton from "@/components/skeletons/loading-skeleton";
 import { Suspense } from "react";
 

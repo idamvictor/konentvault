@@ -1,4 +1,4 @@
-import PostCard from "@/components/home/post-card";
+import PostCard from "@/components/main/home/post-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { MakePost } from "./make-post";
 

@@ -12,26 +12,46 @@ import {
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import UserMenuModal from "./modals/main/UserMenuModal";
+// import { useState } from "react";
+// import UserMenuModal from "./modals/main/UserMenuModal";
 
 const navigationItems = [
-  { icon: Home, label: "Home", href: "/home", badge: null },
-  { icon: Bell, label: "Notifications", href: "/notifications", badge: null },
-  { icon: MessageCircle, label: "Messages", href: "/messages", badge: "10" },
-  { icon: Bookmark, label: "Collections", href: "/collections", badge: null },
-  { icon: Users, label: "Subscriptions", href: "/subscriptions", badge: null },
-  { icon: User, label: "My profile", href: "/profile", badge: null },
+  { icon: Home, label: "Home", href: "/creator/home", badge: null },
+  {
+    icon: Bell,
+    label: "Notifications",
+    href: "/creator/notifications",
+    badge: null,
+  },
+  {
+    icon: MessageCircle,
+    label: "Messages",
+    href: "/creator/messages",
+    badge: "10",
+  },
+  {
+    icon: Bookmark,
+    label: "Collections",
+    href: "/creator/collections",
+    badge: null,
+  },
+  {
+    icon: Users,
+    label: "Subscriptions",
+    href: "/creator/subscriptions",
+    badge: null,
+  },
+  { icon: User, label: "My profile", href: "/creator/profile", badge: null },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleMoreClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsMenuOpen(true);
-  };
+  // const handleMoreClick = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   setIsMenuOpen(true);
+  // };
 
   return (
     <>
@@ -78,7 +98,7 @@ export default function Sidebar() {
             ))}
             <li>
               <button
-                onClick={handleMoreClick}
+                // onClick={handleMoreClick}
                 className="relative w-full flex items-center gap-x-4 px-4 py-3 rounded-xl text-[15px] transition-all duration-200 text-gray-700 hover:bg-gray-100/80"
               >
                 <MoreHorizontal className="w-6 h-6" aria-hidden="true" />
@@ -93,7 +113,7 @@ export default function Sidebar() {
           </button>
         </div>{" "}
       </nav>
-      <UserMenuModal isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      {/* <UserMenuModal isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} /> */}
     </>
   );
 }

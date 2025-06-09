@@ -1,6 +1,6 @@
-import CollectionsPanel from '@/components/collections/collections-panel';
-import FollowingPanel from '@/components/collections/following-panel';
-import React from 'react'
+import CollectionsPanel from "@/components/main/collections/collections-panel";
+import FollowingPanel from "@/components/main/collections/following-panel";
+import React from "react";
 
 export default function CollectionsPage() {
   return (

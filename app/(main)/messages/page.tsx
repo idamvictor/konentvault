@@ -1,6 +1,6 @@
-import MessagesList from '@/components/messages/messages-list';
+import MessagesList from '@/components/main/messages/messages-list';
 import React from 'react'
-import ConversationArea from '../../../components/messages/conversation-area';
+import ConversationArea from '../../../components/main/messages/conversation-area';
 
 export default function MessagessPage() {
   return (
