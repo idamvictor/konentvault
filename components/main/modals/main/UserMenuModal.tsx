@@ -13,6 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useAuth } from "@/contexts/auth-context";
 
 interface UserMenuModalProps {
   isOpen: boolean;
@@ -20,6 +21,8 @@ interface UserMenuModalProps {
 }
 
 export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
+  const { logout, isAuthenticated,user } = useAuth();
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="!p-4 w-72 !left-4 !translate-x-0 !top-20 !translate-y-0">
@@ -33,7 +36,7 @@ export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
 
         {/* User Info */}
         <div className="space-y-1">
-          <h2 className="font-semibold text-foreground">zack</h2>
+          <h2 className="font-semibold text-foreground">{user?.name}</h2>
           <p className="text-sm text-muted-foreground">@u453162462</p>
         </div>
 
@@ -90,7 +93,7 @@ export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
         <Separator className="my-4" />
 
         {/* Footer */}
-        <Button variant="ghost" className="w-full justify-start text-sm h-9">
+        <Button variant="ghost" className="w-full justify-start text-sm h-9" onClick={logout} disabled={!isAuthenticated}>
           Log out
         </Button>
       </DialogContent>

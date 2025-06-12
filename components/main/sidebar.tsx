@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import UserMenuModal from "./modals/main/UserMenuModal";
+import { useAuth } from "@/contexts/auth-context";
 
 const navigationItems = [
   { icon: Home, label: "Home", href: "/home", badge: null },
@@ -27,6 +28,8 @@ const navigationItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const { user } = useAuth();
 
   const handleMoreClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -51,7 +54,7 @@ export default function Sidebar() {
                 <p className="text-[15px] font-semibold text-gray-900 truncate">
                   Your Account
                 </p>
-                <p className="text-sm text-gray-500 truncate">@youraccount</p>
+                <p className="text-sm text-gray-500 truncate">{user?.email}</p>
               </div>
             </div>
           </div>{" "}

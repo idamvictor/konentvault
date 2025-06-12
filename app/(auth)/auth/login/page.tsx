@@ -5,9 +5,45 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/auth-context";
+// import { ApiError, AuthError } from "@/lib/errors";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const { login } = useAuth();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    setError("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      await login(formData.email, formData.password);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -39,21 +75,39 @@ export default function LoginPage() {
 
       {/* Right side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
           <div className="text-center lg:text-left">
             <h2 className="text-2xl font-semibold text-foreground mb-8">
               Log in
             </h2>
           </div>
 
+          {error && (
+            <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-4">
-            <Input placeholder="Email" type="email" className="h-12" />
+            <Input
+              name="email"
+              placeholder="Email"
+              type="email"
+              className="h-12"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
             <div className="relative">
               <Input
+                name="password"
                 placeholder="Password"
                 type={showPassword ? "text" : "password"}
                 className="h-12 pr-10"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
               <Button
                 type="button"
@@ -70,8 +124,8 @@ export default function LoginPage() {
               </Button>
             </div>
 
-            <Button type="button" className="w-full h-12">
-              LOG IN
+            <Button type="submit" className="w-full h-12" disabled={loading}>
+              {loading ? "LOGGING IN..." : "LOG IN"}
             </Button>
           </div>
 
@@ -130,7 +184,7 @@ export default function LoginPage() {
               PASSWORDLESS SIGN IN
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

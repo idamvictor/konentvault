@@ -5,9 +5,46 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    userType: "fan" as const,
+  });
+
+  const { register } = useAuth();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    setError("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      await register(formData);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -30,32 +67,59 @@ export default function SignupPage() {
             <h1 className="text-3xl font-bold">Konentvault</h1>
           </div>
           <h2 className="text-4xl font-bold leading-tight">
-            Sign up to support your
+            Join Konentvault to support
             <br />
-            favorite creators
+            your favorite creators
           </h2>
         </div>
       </div>
 
-      {/* Right side - Signup Form */}
+      {/* Right side - Sign Up Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
           <div className="text-center lg:text-left">
             <h2 className="text-2xl font-semibold text-foreground mb-8">
-              Create your account
+              Sign up for Konentvault
             </h2>
           </div>
 
-          <div className="space-y-4">
-            <Input placeholder="Name" className="h-12" />
+          {error && (
+            <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
+              {error}
+            </div>
+          )}
 
-            <Input placeholder="Email" type="email" className="h-12" />
+          <div className="space-y-4">
+            <Input
+              name="name"
+              placeholder="Full Name"
+              type="text"
+              className="h-12"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+
+            <Input
+              name="email"
+              placeholder="Email"
+              type="email"
+              className="h-12"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
             <div className="relative">
               <Input
+                name="password"
                 placeholder="Password"
                 type={showPassword ? "text" : "password"}
                 className="h-12 pr-10"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength={8}
               />
               <Button
                 type="button"
@@ -72,14 +136,14 @@ export default function SignupPage() {
               </Button>
             </div>
 
-            <Button type="button" className="w-full h-12">
-              SIGN UP
+            <Button type="submit" className="w-full h-12" disabled={loading}>
+              {loading ? "SIGNING UP..." : "SIGN UP"}
             </Button>
           </div>
 
           <div className="text-center text-sm text-muted-foreground">
             <p>
-              By signing up you agree to our{" "}
+              By signing up for Konentvault, you agree to our{" "}
               <Link href="#" className="text-primary hover:underline">
                 Terms of Service
               </Link>{" "}
@@ -92,34 +156,12 @@ export default function SignupPage() {
           </div>
 
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">
-              Already have an account?{" "}
-            </span>
+            Already have an account?{" "}
             <Link href="/auth/login" className="text-primary hover:underline">
               Log in
             </Link>
           </div>
-
-          <div className="space-y-3">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full h-12 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-primary-foreground"
-            >
-              <span className="mr-2 font-bold">𝕏</span>
-              SIGN IN WITH X
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full h-12 bg-[#4285F4] hover:bg-[#3367D6] text-primary-foreground"
-            >
-              <span className="mr-2">G</span>
-              SIGN IN WITH GOOGLE
-            </Button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );
