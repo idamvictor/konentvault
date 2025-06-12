@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ApiError, AuthError } from "@/lib/errors";
 import { useUserStore } from "@/store/use-user-store";
 import type { User } from "@/store/use-user-store";
+import { AxiosError } from "axios";
 
 interface RegisterData {
   name: string;
@@ -76,7 +77,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await axiosInstance.post("/auth/register", data);
 
       const { user, token } = response.data;
-
       setUser(user);
 
       let redirectPath;
@@ -91,12 +91,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       router.push(redirectPath);
     } catch (error) {
-      const apiError = error as ApiError;
-      throw new AuthError(
-        apiError.response?.data?.message ||
-          apiError.message ||
-          "Registration failed. Please try again."
-      );
+      if (error instanceof AxiosError) {
+        const responseData = error.response?.data;
+
+        // Handle known validation format
+        if (
+          responseData?.error === "Validation failed" &&
+          responseData?.details
+        ) {
+          const details = responseData.details;
+          throw new AuthError(
+            Array.isArray(details) ? details.join("\n") : details
+          );
+        }
+
+        // Handle simpler error format like: { error: "Date of birth cannot be in the future." }
+        if (responseData?.error) {
+          throw new AuthError(responseData.error);
+        }
+      }
+
+      // Fallback for unknown errors
+      if (error instanceof Error) {
+        throw new AuthError(error.message);
+      }
+
+      throw new AuthError("Registration failed. Please try again.");
     }
   };
 

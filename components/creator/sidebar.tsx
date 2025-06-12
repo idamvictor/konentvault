@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
 
 // Group definitions for the sidebar
 const mainNavigation = [
@@ -72,7 +73,7 @@ const preferences = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-
+  const { logout } = useAuth();
   return (
     <>
       <nav
@@ -181,6 +182,7 @@ export default function Sidebar() {
             <button
               className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
               aria-label="Logout"
+              onClick={() => logout()}
             >
               <LogOut className="w-5 h-5 text-primary" />
             </button>
