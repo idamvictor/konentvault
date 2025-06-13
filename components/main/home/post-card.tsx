@@ -11,9 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Post as ApiPost } from "@/types/post-types";
 import { formatTimestamp } from "@/helpers/format-timestamp";
+import React, { useState } from "react";
+import { useAddComment } from "@/services/reaction/use-add-comment";
 
 interface PostCardProps {
   post: ApiPost;
@@ -42,6 +45,25 @@ export default function PostCard({ post }: PostCardProps) {
   const authorUsername = `@${post.user?.username || "unknown"}`;
   // If you have a verified field, use it; otherwise, default to false
   const authorVerified = false;
+  const [commentText, setCommentText] = useState("");
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [showCommentInput, setShowCommentInput] = useState(false);
+  const addComment = useAddComment();
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+    setIsCommenting(true);
+    await addComment.mutateAsync({
+      type: "comment",
+      text: commentText,
+      media: "text",
+      postId: post.id,
+    });
+    setCommentText("");
+    setIsCommenting(false);
+    setShowCommentInput(false); // Hide the comment input after successful submission
+  };
 
   return (
     <Card className="overflow-hidden border-0 bg-background/95 backdrop-blur-sm shadow-md rounded-lg mb-4">
@@ -132,17 +154,16 @@ export default function PostCard({ post }: PostCardProps) {
               >
                 <Heart className="w-3.5 h-3.5 mr-1" />
                 <span className="text-xs">{likes}</span>
-              </Button>
-
+              </Button>{" "}
               <Button
                 variant="ghost"
                 size="sm"
                 className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
+                onClick={() => setShowCommentInput(!showCommentInput)}
               >
                 <MessageCircle className="w-3.5 h-3.5 mr-1" />
                 <span className="text-xs">{comments}</span>
               </Button>
-
               <Button
                 variant="ghost"
                 size="sm"
@@ -151,7 +172,6 @@ export default function PostCard({ post }: PostCardProps) {
                 <Share className="w-3.5 h-3.5 mr-1" />
                 <span className="text-xs">{shares}</span>
               </Button>
-
               <Button
                 variant="ghost"
                 size="sm"
@@ -161,7 +181,35 @@ export default function PostCard({ post }: PostCardProps) {
                 <span className="text-xs">{post.views}</span>
               </Button>
             </div>
-          </div>
+          </div>{" "}
+          {/* Comment Input */}
+          {showCommentInput && (
+            <form
+              onSubmit={handleCommentSubmit}
+              className="flex items-center mt-2 space-x-2 px-2"
+            >
+              <Input
+                type="text"
+                className="flex-1 h-8 text-sm"
+                placeholder="Add a comment..."
+                value={commentText}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setCommentText(e.target.value)
+                }
+                disabled={isCommenting}
+                maxLength={200}
+              />
+              <Button
+                type="submit"
+                size="sm"
+                variant="secondary"
+                disabled={isCommenting || !commentText.trim()}
+                className="h-8 px-3 rounded-full shrink-0"
+              >
+                {isCommenting ? "Posting..." : "Post"}
+              </Button>
+            </form>
+          )}
         </div>
       </CardContent>
     </Card>
