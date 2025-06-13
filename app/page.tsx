@@ -11,7 +11,7 @@ export default function Home() {
     // Wait for 4 seconds (100% of loading progress) before redirecting
     const timer = setTimeout(() => {
       router.push("/landing");
-    }, 3500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [router]);

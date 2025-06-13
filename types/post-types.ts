@@ -36,17 +36,3 @@ export interface Post {
 }
 
 export type PostsResponse = Post[];
-
-export interface CreatePostData {
-  content: string;
-  media?: string;
-  type: "text" | "image" | "video";
-  price?: number;
-  payType: "free" | "ppv" | "subscription";
-}
-
-export interface UpdatePostData {
-  content: string;
-  price: number;
-  payType: "free" | "ppv" | "subscription";
-}

@@ -1,7 +1,13 @@
 import axiosInstance from "@/lib/axios";
-import { UpdatePostData } from "@/types/post-types";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+
+export interface UpdatePostData {
+  content: string;
+  price: number;
+  payType: "free" | "ppv" | "subscription";
+}
 
 interface UpdatePost {
   id: string;

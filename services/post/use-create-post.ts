@@ -1,7 +1,14 @@
 import axiosInstance from "@/lib/axios";
-import { CreatePostData } from "@/types/post-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+
+export interface CreatePostData {
+  content: string;
+  media?: string;
+  type: "text" | "image" | "video";
+  price?: number;
+  payType: "free" | "ppv" | "subscription";
+}
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
