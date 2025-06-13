@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios";
 import { CreatePostData } from "@/types/post-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
@@ -8,8 +9,16 @@ export const useCreatePost = () => {
     mutationFn: (newPost: CreatePostData) =>
       axiosInstance.post("/post", newPost),
     onSuccess: () => {
-      // Invalidate and refetch queries after mutation
+      // Handle success here (e.g., show a toast or log)
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: (error) => {
+      let message = "Failed to create post";
+      if (error instanceof AxiosError) {
+        message = error.response?.data?.error || error.message;
+      }
+      // Handle error here (e.g., show a toast or log)
+      console.error(message);
     },
   });
 };

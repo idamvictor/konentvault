@@ -44,3 +44,9 @@ export interface CreatePostData {
   price?: number;
   payType: "free" | "ppv" | "subscription";
 }
+
+export interface UpdatePostData {
+  content: string;
+  price: number;
+  payType: "free" | "ppv" | "subscription";
+}

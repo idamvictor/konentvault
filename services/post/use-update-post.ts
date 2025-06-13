@@ -1,31 +1,29 @@
 import axiosInstance from "@/lib/axios";
+import { UpdatePostData } from "@/types/post-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-const deletePost = async (id: string) => {
-  try {
-    await axiosInstance.delete(`/post/${id}`);
-  } catch (error) {
-    const newError =
-      error instanceof AxiosError
-        ? error.response?.data?.error
-        : "failed to fetch posts";
-    throw new Error(newError);
-  }
-};
+interface UpdatePost {
+  id: string;
+  editedPost: UpdatePostData;
+}
 
-export const useDeletePost = () => {
+export const useUpdatePost = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: (id: string) => deletePost(id),
+    mutationFn: ({ editedPost, id }: UpdatePost) =>
+      axiosInstance.put(`/post/${id}`, editedPost),
     onSuccess: () => {
       // Handle success here (e.g., show a toast or log)
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (error) => {
+      let message = "Failed to create post";
+      if (error instanceof AxiosError) {
+        message = error.response?.data?.error || error.message;
+      }
       // Handle error here (e.g., show a toast or log)
-      console.error("Failed to delete post:", error);
+      console.error(message);
     },
   });
 };
