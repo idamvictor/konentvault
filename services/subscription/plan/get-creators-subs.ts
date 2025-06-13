@@ -8,7 +8,7 @@ interface SubscriptionPlan {
   duration: string; //30, 90, 360
 }
 
-export const GetCreatorsSubs = (creatorId: number) => {
+export const useGetCreatorsSubs = (creatorId: number) => {
   return useQuery<SubscriptionPlan[]>({
     queryKey: ["subscription-plans", creatorId],
     queryFn: async () => {

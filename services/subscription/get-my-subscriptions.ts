@@ -16,7 +16,7 @@ const getMySubscriptions = async (): Promise<Subscriptions | null> => {
   }
 };
 
-export const GetMySubscription = () => {
+export const useGetMySubscription = () => {
   return useQuery<Subscriptions | null>({
     queryKey: ["my-subscriptions"],
     queryFn: getMySubscriptions,
