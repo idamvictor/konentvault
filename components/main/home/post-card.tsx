@@ -17,6 +17,7 @@ import { Post as ApiPost } from "@/types/post-types";
 import { formatTimestamp } from "@/helpers/format-timestamp";
 import React, { useState } from "react";
 import { useAddComment } from "@/services/reaction/use-add-comment";
+import { useGetPostReactions } from "@/services/reaction/get-post-reactions";
 
 interface PostCardProps {
   post: ApiPost;
@@ -47,7 +48,8 @@ export default function PostCard({ post }: PostCardProps) {
   const authorVerified = false;
   const [commentText, setCommentText] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
-  const [showCommentInput, setShowCommentInput] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const { data: postReactions } = useGetPostReactions(post.id.toString());
   const addComment = useAddComment();
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
@@ -62,7 +64,7 @@ export default function PostCard({ post }: PostCardProps) {
     });
     setCommentText("");
     setIsCommenting(false);
-    setShowCommentInput(false); // Hide the comment input after successful submission
+    setShowComments(false); // Hide comments after successful submission
   };
 
   return (
@@ -77,7 +79,9 @@ export default function PostCard({ post }: PostCardProps) {
                 alt={`${authorName}'s profile`}
                 className="object-cover"
               />
-              <AvatarFallback>{authorName.charAt(0)}</AvatarFallback>
+              <AvatarFallback>
+                {authorName.charAt(0).toLocaleUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div>
               <div className="flex items-center space-x-1">
@@ -159,7 +163,7 @@ export default function PostCard({ post }: PostCardProps) {
                 variant="ghost"
                 size="sm"
                 className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
-                onClick={() => setShowCommentInput(!showCommentInput)}
+                onClick={() => setShowComments(!showComments)}
               >
                 <MessageCircle className="w-3.5 h-3.5 mr-1" />
                 <span className="text-xs">{comments}</span>
@@ -182,33 +186,82 @@ export default function PostCard({ post }: PostCardProps) {
               </Button>
             </div>
           </div>{" "}
-          {/* Comment Input */}
-          {showCommentInput && (
-            <form
-              onSubmit={handleCommentSubmit}
-              className="flex items-center mt-2 space-x-2 px-2"
-            >
-              <Input
-                type="text"
-                className="flex-1 h-8 text-sm"
-                placeholder="Add a comment..."
-                value={commentText}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setCommentText(e.target.value)
-                }
-                disabled={isCommenting}
-                maxLength={200}
-              />
-              <Button
-                type="submit"
-                size="sm"
-                variant="secondary"
-                disabled={isCommenting || !commentText.trim()}
-                className="h-8 px-3 rounded-full shrink-0"
+          {/* Comment Input */}{" "}
+          {showComments && (
+            <div className="mt-2 space-y-4 px-2">
+              {/* Comment Input Form */}
+              <form
+                onSubmit={handleCommentSubmit}
+                className="flex items-center space-x-2"
               >
-                {isCommenting ? "Posting..." : "Post"}
-              </Button>
-            </form>
+                <Input
+                  type="text"
+                  className="flex-1 h-8 text-sm"
+                  placeholder="Add a comment..."
+                  value={commentText}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setCommentText(e.target.value)
+                  }
+                  disabled={isCommenting}
+                  maxLength={200}
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  variant="secondary"
+                  disabled={isCommenting || !commentText.trim()}
+                  className="h-8 px-3 rounded-full shrink-0"
+                >
+                  {isCommenting ? "Posting..." : "Post"}
+                </Button>
+              </form>
+
+              {/* Comments List */}
+              <div className="space-y-3 pt-2 border-t border-border/50">
+                {postReactions?.reactions
+                  .filter((reaction) => reaction.type === "comment")
+                  .sort(
+                    (a, b) =>
+                      new Date(b.createdAt).getTime() -
+                      new Date(a.createdAt).getTime()
+                  )
+                  .map((comment) => {
+                    const commentData = JSON.parse(comment.content);
+                    return (
+                      <div
+                        key={comment.id}
+                        className="flex items-start space-x-2"
+                      >
+                        <Avatar className="w-6 h-6 ring-1 ring-primary/10">
+                          <AvatarImage
+                            src={
+                              comment.user.profilePicture || "/placeholder.svg"
+                            }
+                            alt={comment.user.name}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>
+                            {comment.user.name.charAt(0).toLocaleUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2">
+                            <p className="text-xs font-medium">
+                              {comment.user.username}
+                            </p>
+                            <span className="text-[10px] text-muted-foreground">
+                              {formatTimestamp(comment.createdAt)}
+                            </span>
+                          </div>
+                          <p className="text-xs text-foreground/90">
+                            {commentData.text}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
           )}
         </div>
       </CardContent>
