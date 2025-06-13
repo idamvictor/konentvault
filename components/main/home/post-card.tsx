@@ -12,31 +12,37 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface Author {
-  name: string;
-  username: string;
-  avatar: string;
-  verified: boolean;
-}
-
-interface Post {
-  id: string;
-  author: Author;
-  content: string;
-  image: string;
-  timestamp: string;
-  likes: number;
-  comments: number;
-  shares: number;
-  mediaCount?: number;
-}
+import { Post as ApiPost } from "@/types/post-types";
+import { formatTimestamp } from "@/helpers/format-timestamp";
 
 interface PostCardProps {
-  post: Post;
+  post: ApiPost;
 }
 
 export default function PostCard({ post }: PostCardProps) {
+  const likes = post.reactions
+    ? post.reactions.filter((r) => r.type === "like").length
+    : 0;
+  const comments = post.reactions
+    ? post.reactions.filter((r) => r.type === "comment").length
+    : 0;
+  const shares = post.reactions
+    ? post.reactions.filter((r) => r.type === "share").length
+    : 0;
+  const mediaCount = post.media ? post.media.length : 0;
+  const image =
+    post.media &&
+    post.media.length > 0 &&
+    typeof post.media[0] === "object" &&
+    "url" in post.media[0]
+      ? (post.media[0] as { url?: string }).url || ""
+      : "";
+  const authorName = post.user?.username || "Unknown";
+  const authorAvatar = post.user?.profilePicture || "/placeholder.svg";
+  const authorUsername = `@${post.user?.username || "unknown"}`;
+  // If you have a verified field, use it; otherwise, default to false
+  const authorVerified = false;
+
   return (
     <Card className="overflow-hidden border-0 bg-background/95 backdrop-blur-sm shadow-md rounded-lg mb-4">
       <CardContent className="p-0">
@@ -45,18 +51,18 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="flex items-center space-x-2.5">
             <Avatar className="w-8 h-8 ring-1 ring-primary/10">
               <AvatarImage
-                src={post.author.avatar || "/placeholder.svg"}
-                alt={`${post.author.name}'s profile`}
+                src={authorAvatar}
+                alt={`${authorName}'s profile`}
                 className="object-cover"
               />
-              <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+              <AvatarFallback>{authorName.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
               <div className="flex items-center space-x-1">
                 <h3 className="font-medium text-foreground text-sm">
-                  {post.author.name}
+                  {authorName}
                 </h3>
-                {post.author.verified && (
+                {authorVerified && (
                   <CheckCircle
                     className="w-3.5 h-3.5 text-primary"
                     aria-label="Verified account"
@@ -64,13 +70,13 @@ export default function PostCard({ post }: PostCardProps) {
                 )}
               </div>
               <p className="text-[11px] text-muted-foreground leading-none">
-                {post.author.username}
+                {authorUsername}
               </p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-[11px] text-muted-foreground">
-              {post.timestamp}
+              {formatTimestamp(post.createdAt)}
             </span>
             <Button
               variant="ghost"
@@ -90,24 +96,24 @@ export default function PostCard({ post }: PostCardProps) {
         </div>
 
         {/* Post Image */}
-        {post.image && (
+        {image && (
           <div className="relative">
             <div className="aspect-[4/3] relative">
               <Image
-                src={post.image || "/placeholder.svg"}
+                src={image}
                 alt="Post content"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              {post.mediaCount && post.mediaCount > 1 && (
+              {mediaCount > 1 && (
                 <div className="absolute top-2 right-2">
                   <Badge
                     variant="secondary"
                     className="bg-background/80 backdrop-blur-sm text-foreground text-[10px] px-2 py-0.5"
                   >
                     <Play className="w-3 h-3 mr-1" />
-                    {post.mediaCount}
+                    {mediaCount}
                   </Badge>
                 </div>
               )}
@@ -125,7 +131,7 @@ export default function PostCard({ post }: PostCardProps) {
                 className="h-7 px-2.5 text-muted-foreground hover:text-destructive rounded-full"
               >
                 <Heart className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{post.likes}</span>
+                <span className="text-xs">{likes}</span>
               </Button>
 
               <Button
@@ -134,7 +140,7 @@ export default function PostCard({ post }: PostCardProps) {
                 className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
               >
                 <MessageCircle className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{post.comments}</span>
+                <span className="text-xs">{comments}</span>
               </Button>
 
               <Button
@@ -143,7 +149,7 @@ export default function PostCard({ post }: PostCardProps) {
                 className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
               >
                 <Share className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{post.shares}</span>
+                <span className="text-xs">{shares}</span>
               </Button>
 
               <Button
@@ -152,7 +158,7 @@ export default function PostCard({ post }: PostCardProps) {
                 className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
               >
                 <CircleDollarSign className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">55667</span>
+                <span className="text-xs">{post.views}</span>
               </Button>
             </div>
           </div>
