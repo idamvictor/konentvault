@@ -1,14 +1,12 @@
 import axiosInstance from "@/lib/axios";
-import { CreatePostData } from "@/types/post-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useCreatePost = () => {
+export const useDeletePost = (id: string) => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (newPost: CreatePostData) =>
-      axiosInstance.post("/post", newPost),
+    mutationFn: async () => await axiosInstance.delete(`/post/${id}`),
     onSuccess: () => {
-      // Invalidate and refetch queries after mutation
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });

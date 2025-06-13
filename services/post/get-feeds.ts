@@ -1,11 +1,11 @@
 import axiosInstance from "@/lib/axios";
-import { PostsResponse } from "@/types/post-types";
+import { PostFeedsResponse } from "@/types/post-feed";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-const GetAllPost = async () => {
+const GetFeeds = async () => {
   try {
-    const res = await axiosInstance.get("/post");
+    const res = await axiosInstance.get("/post/feed");
     return res.data?.posts || [];
   } catch (error) {
     const newError =
@@ -16,9 +16,9 @@ const GetAllPost = async () => {
   }
 };
 
-export const useGetAllPost = () => {
-  return useQuery<PostsResponse>({
-    queryKey: ["posts"],
-    queryFn: GetAllPost,
+export const useGetFeeds = () => {
+  return useQuery<PostFeedsResponse>({
+    queryKey: ["feeds"],
+    queryFn: GetFeeds,
   });
 };

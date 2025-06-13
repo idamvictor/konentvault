@@ -1,6 +1,9 @@
+"use-client";
+
 import PostCard from "@/components/creator/home/post-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { MakePost } from "./make-post";
+import { useGetAllPost } from "@/services/post/get-all-post";
 
 const POSTS_DATA = {
   posts: [
@@ -65,6 +68,9 @@ const POSTS_DATA = {
 };
 
 export default function MainContent() {
+  const { data: posts } = useGetAllPost();
+  console.log(posts);
+
   return (
     <div className="px-4 space-y-4 bg-muted min-h-screen">
       <div className="sticky top-0 z-10 -mx-4 px-4 py-3 bg-background/80 backdrop-blur-sm border-b">

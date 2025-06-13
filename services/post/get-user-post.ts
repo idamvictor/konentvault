@@ -3,10 +3,10 @@ import { PostsResponse } from "@/types/post-types";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-const GetAllPost = async () => {
+const GetUserPost = async () => {
   try {
-    const res = await axiosInstance.get("/post");
-    return res.data?.posts || [];
+    const res = await axiosInstance.get("/post/my");
+    return res.data.posts || [];
   } catch (error) {
     const newError =
       error instanceof AxiosError
@@ -16,9 +16,9 @@ const GetAllPost = async () => {
   }
 };
 
-export const useGetAllPost = () => {
+export const useGetUserPost = () => {
   return useQuery<PostsResponse>({
-    queryKey: ["posts"],
-    queryFn: GetAllPost,
+    queryKey: ["user-posts"],
+    queryFn: GetUserPost,
   });
 };
