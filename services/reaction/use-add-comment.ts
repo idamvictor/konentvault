@@ -9,7 +9,7 @@ export interface Comment {
   postId: number;
 }
 
-export const useMakeComment = () => {
+export const useAddComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
