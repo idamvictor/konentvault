@@ -116,7 +116,8 @@ export default function PostCard({ post }: PostCardProps) {
 
         {/* Post Content */}
         <div className="px-3 pb-2">
-          <p className="text-sm text-foreground/90 leading-relaxed">
+          {" "}
+          <p className="text-base text-foreground/90 leading-relaxed">
             {post.content}
           </p>
         </div>
@@ -154,35 +155,35 @@ export default function PostCard({ post }: PostCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2.5 text-muted-foreground hover:text-destructive rounded-full"
+                className="h-9 px-3 text-muted-foreground hover:text-destructive rounded-full"
               >
-                <Heart className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{likes}</span>
+                <Heart className="w-5 h-5 mr-1.5" />
+                <span className="text-sm">{likes}</span>
               </Button>{" "}
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
+                className="h-9 px-3 text-muted-foreground hover:text-primary rounded-full"
                 onClick={() => setShowComments(!showComments)}
               >
-                <MessageCircle className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{comments}</span>
+                <MessageCircle className="w-5 h-5 mr-1.5" />
+                <span className="text-sm">{comments}</span>
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
+                className="h-9 px-3 text-muted-foreground hover:text-primary rounded-full"
               >
-                <Share className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{shares}</span>
+                <Share className="w-5 h-5 mr-1.5" />
+                <span className="text-sm">{shares}</span>
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-7 px-2.5 text-muted-foreground hover:text-primary rounded-full"
+                className="h-9 px-3 text-muted-foreground hover:text-primary rounded-full"
               >
-                <CircleDollarSign className="w-3.5 h-3.5 mr-1" />
-                <span className="text-xs">{post.views}</span>
+                <CircleDollarSign className="w-5 h-5 mr-1.5" />
+                <span className="text-sm">{post.views}</span>
               </Button>
             </div>
           </div>{" "}
@@ -196,7 +197,7 @@ export default function PostCard({ post }: PostCardProps) {
               >
                 <Input
                   type="text"
-                  className="flex-1 h-8 text-sm"
+                  className="flex-1 h-10 text-base"
                   placeholder="Add a comment..."
                   value={commentText}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -210,7 +211,7 @@ export default function PostCard({ post }: PostCardProps) {
                   size="sm"
                   variant="secondary"
                   disabled={isCommenting || !commentText.trim()}
-                  className="h-8 px-3 rounded-full shrink-0"
+                  className="h-10 px-4 rounded-full shrink-0 text-base"
                 >
                   {isCommenting ? "Posting..." : "Post"}
                 </Button>
@@ -232,7 +233,7 @@ export default function PostCard({ post }: PostCardProps) {
                         key={comment.id}
                         className="flex items-start space-x-2"
                       >
-                        <Avatar className="w-6 h-6 ring-1 ring-primary/10">
+                        <Avatar className="w-8 h-8 ring-1 ring-primary/10">
                           <AvatarImage
                             src={
                               comment.user.profilePicture || "/placeholder.svg"
