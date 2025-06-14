@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 
 export interface CreatePostData {
   content: string;
-  media?: string;
+  media?: File | string;
   type: "text" | "image" | "video";
   price?: number;
   payType: "free" | "ppv" | "subscription";
@@ -13,8 +13,17 @@ export interface CreatePostData {
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (newPost: CreatePostData) =>
-      axiosInstance.post("/post", newPost),
+    mutationFn: (newPost: CreatePostData | FormData) =>
+      axiosInstance.post("/post", newPost, {
+        headers:
+          newPost instanceof FormData
+            ? {
+                "Content-Type": "multipart/form-data",
+              }
+            : {
+                "Content-Type": "application/json",
+              },
+      }),
     onSuccess: () => {
       // Handle success here (e.g., show a toast or log)
       queryClient.invalidateQueries({ queryKey: ["posts"] });

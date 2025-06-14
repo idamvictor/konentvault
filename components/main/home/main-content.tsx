@@ -5,6 +5,7 @@ import { useGetAllPost } from "@/services/post/get-all-post";
 
 export default function MainContent() {
   const { data: posts, isLoading, isError } = useGetAllPost();
+  console.log("Posts:", posts);
 
   return (
     <div className="px-4 space-y-4 bg-muted min-h-screen">

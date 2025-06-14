@@ -39,13 +39,18 @@ export default function PostCard({ post }: PostCardProps) {
     ? post.reactions.filter((r) => r.type === "share").length
     : 0;
   const mediaCount = post.media ? post.media.length : 0;
-  const image =
-    post.media &&
-    post.media.length > 0 &&
-    typeof post.media[0] === "object" &&
-    "url" in post.media[0]
-      ? (post.media[0] as { url?: string }).url || ""
+
+  // Debug logs to check the media data
+  console.log("Post Media:", post.media);
+  console.log("NEXT_PUBLIC_API_URL:", process.env.NEXT_PUBLIC_API_URL);
+
+  const imageUrl =
+    post.media && post.media.length > 0
+      ? `${process.env.NEXT_PUBLIC_API_URL}${post.media[0].mediaPath}`
       : "";
+
+  console.log("Final Image URL:", imageUrl);
+
   const authorName = post.user?.username || "Unknown";
   const authorAvatar = post.user?.profilePicture || "/placeholder.svg";
   const authorUsername = `@${post.user?.username || "unknown"}`;
@@ -190,22 +195,29 @@ export default function PostCard({ post }: PostCardProps) {
 
         {/* Post Content */}
         <div className="px-3 pb-2">
-          {" "}
           <p className="text-base text-foreground/90 leading-relaxed">
             {post.content}
           </p>
         </div>
 
         {/* Post Image */}
-        {image && (
+        {imageUrl && (
           <div className="relative">
             <div className="aspect-[4/3] relative">
               <Image
-                src={image}
+                src={imageUrl}
                 alt="Post content"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+                onError={(e) => {
+                  console.error("Error loading image:", imageUrl);
+                  console.error("Image error event:", e);
+                }}
+                onLoad={() => {
+                  console.log("Image loaded successfully:", imageUrl);
+                }}
               />
               {mediaCount > 1 && (
                 <div className="absolute top-2 right-2">

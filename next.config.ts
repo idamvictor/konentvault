@@ -15,7 +15,14 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost:3000",
+        port: "",
+        pathname: "/**",
+      },
     ],
+    domains: ["localhost", "sp.konentvault.net.ng"], // Add localhost and production backend to allowed domains
   },
 };
 
