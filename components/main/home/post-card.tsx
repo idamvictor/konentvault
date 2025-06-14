@@ -7,6 +7,8 @@ import {
   CheckCircle,
   Play,
   CircleDollarSign,
+  Pencil,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,6 +20,7 @@ import { formatTimestamp } from "@/helpers/format-timestamp";
 import React, { useState } from "react";
 import { useAddComment } from "@/services/reaction/use-add-comment";
 import { useGetPostReactions } from "@/services/reaction/get-post-reactions";
+import { useUpdateComment } from "@/services/reaction/use-update-comment";
 
 interface PostCardProps {
   post: ApiPost;
@@ -44,13 +47,15 @@ export default function PostCard({ post }: PostCardProps) {
   const authorName = post.user?.username || "Unknown";
   const authorAvatar = post.user?.profilePicture || "/placeholder.svg";
   const authorUsername = `@${post.user?.username || "unknown"}`;
-  // If you have a verified field, use it; otherwise, default to false
   const authorVerified = false;
   const [commentText, setCommentText] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editCommentText, setEditCommentText] = useState("");
   const { data: postReactions } = useGetPostReactions(post.id.toString());
   const addComment = useAddComment();
+  const updateComment = useUpdateComment();
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +70,30 @@ export default function PostCard({ post }: PostCardProps) {
     setCommentText("");
     setIsCommenting(false);
     setShowComments(false); // Hide comments after successful submission
+  };
+
+  const handleCommentEdit = (commentId: string, text: string) => {
+    setEditingCommentId(commentId);
+    setEditCommentText(text);
+  };
+
+  const handleCommentUpdate = async (commentId: string) => {
+    if (!editCommentText.trim()) return;
+
+    try {
+      await updateComment.mutateAsync({
+        commentId,
+        postId: post.id.toString(),
+        commentData: {
+          text: editCommentText,
+          file: "text", // This can be updated to handle media files
+        },
+      });
+      setEditingCommentId(null);
+      setEditCommentText("");
+    } catch (error) {
+      console.error("Failed to update comment:", error);
+    }
   };
 
   return (
@@ -228,6 +257,9 @@ export default function PostCard({ post }: PostCardProps) {
                   )
                   .map((comment) => {
                     const commentData = JSON.parse(comment.content);
+                    const isEditing =
+                      editingCommentId === comment.id.toString();
+
                     return (
                       <div
                         key={comment.id}
@@ -246,17 +278,72 @@ export default function PostCard({ post }: PostCardProps) {
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
-                          <div className="flex items-center space-x-2">
-                            <p className="text-xs font-medium">
-                              {comment.user.username}
-                            </p>
-                            <span className="text-[10px] text-muted-foreground">
-                              {formatTimestamp(comment.createdAt)}
-                            </span>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <p className="text-xs font-medium">
+                                {comment.user.username}
+                              </p>
+                              <span className="text-[10px] text-muted-foreground">
+                                {formatTimestamp(comment.createdAt)}
+                              </span>
+                            </div>
+                            {!isEditing && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 hover:bg-accent"
+                                onClick={() =>
+                                  handleCommentEdit(
+                                    comment.id.toString(),
+                                    commentData.text
+                                  )
+                                }
+                              >
+                                <Pencil className="h-3 w-3" />
+                              </Button>
+                            )}
                           </div>
-                          <p className="text-xs text-foreground/90">
-                            {commentData.text}
-                          </p>
+                          {isEditing ? (
+                            <div className="flex items-center space-x-2 mt-1">
+                              <Input
+                                type="text"
+                                value={editCommentText}
+                                onChange={(e) =>
+                                  setEditCommentText(e.target.value)
+                                }
+                                className="flex-1 h-8 text-xs"
+                                maxLength={200}
+                              />
+                              <div className="flex items-center space-x-1">
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-8 px-2"
+                                  onClick={() => setEditingCommentId(null)}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  className="h-8 px-3"
+                                  onClick={() =>
+                                    handleCommentUpdate(comment.id.toString())
+                                  }
+                                  disabled={
+                                    !editCommentText.trim() ||
+                                    editCommentText === commentData.text
+                                  }
+                                >
+                                  Save
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <p className="text-xs text-foreground/90">
+                              {commentData.text}
+                            </p>
+                          )}
                         </div>
                       </div>
                     );
