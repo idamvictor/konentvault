@@ -23,6 +23,13 @@ import React, { useState } from "react";
 import { useAddComment } from "@/services/reaction/use-add-comment";
 import { useGetPostReactions } from "@/services/reaction/get-post-reactions";
 import { useUpdateComment } from "@/services/reaction/use-update-comment";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useDeletePost } from "@/services/post/use-delete-post";
 
 interface PostCardProps {
   post: ApiPost;
@@ -77,6 +84,17 @@ export default function PostCard({ post }: PostCardProps) {
       )?.id || null
     );
   });
+
+  const deletePostMutation = useDeletePost();
+
+  const handleDeletePost = async (postId: string) => {
+    try {
+      await deletePostMutation.mutateAsync(postId);
+      // Post will be automatically removed from the UI due to query invalidation
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+    }
+  };
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -182,14 +200,26 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="flex items-center space-x-2">
             <span className="text-[11px] text-muted-foreground">
               {formatTimestamp(post.createdAt)}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 w-7 p-0 rounded-full"
-            >
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
+            </span>{" "}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 w-7 p-0 rounded-full"
+                >
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive"
+                  onClick={() => handleDeletePost(post.id.toString())}
+                >
+                  Delete post
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
