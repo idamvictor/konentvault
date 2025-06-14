@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useDeleteReaction } from "@/services/reaction/use-delete-reaction";
+import { useLikePost } from "@/services/reaction/use-like-post";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -56,6 +58,20 @@ export default function PostCard({ post }: PostCardProps) {
   const { data: postReactions } = useGetPostReactions(post.id.toString());
   const addComment = useAddComment();
   const updateComment = useUpdateComment();
+  const deleteReaction = useDeleteReaction();
+  const likePost = useLikePost();
+  const [isLiked, setIsLiked] = useState(() => {
+    return post.reactions?.some(
+      (r) => r.type === "like" && r.userId === post.user?.id
+    );
+  });
+  const [currentLikeId, setCurrentLikeId] = useState(() => {
+    return (
+      post.reactions?.find(
+        (r) => r.type === "like" && r.userId === post.user?.id
+      )?.id || null
+    );
+  });
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,6 +109,35 @@ export default function PostCard({ post }: PostCardProps) {
       setEditCommentText("");
     } catch (error) {
       console.error("Failed to update comment:", error);
+    }
+  };
+
+  const handleLikeToggle = async () => {
+    try {
+      if (isLiked && currentLikeId) {
+        await deleteReaction.mutateAsync(currentLikeId.toString());
+        setIsLiked(false);
+        setCurrentLikeId(null);
+      } else {
+        const newLikeId = await likePost.mutateAsync({
+          type: "like",
+          postId: post.id,
+        });
+
+        const likedId = parseInt(newLikeId, 10);
+        setIsLiked(true);
+        setCurrentLikeId(likedId);
+      }
+    } catch (error) {
+      console.error("Failed to toggle like:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      await deleteReaction.mutateAsync(commentId);
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
     }
   };
 
@@ -184,11 +229,18 @@ export default function PostCard({ post }: PostCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-9 px-3 text-muted-foreground hover:text-destructive rounded-full"
+                className={`h-9 px-3 rounded-full ${
+                  isLiked
+                    ? "text-destructive"
+                    : "text-muted-foreground hover:text-destructive"
+                }`}
+                onClick={handleLikeToggle}
               >
-                <Heart className="w-5 h-5 mr-1.5" />
+                <Heart
+                  className={`w-5 h-5 mr-1.5 ${isLiked ? "fill-current" : ""}`}
+                />
                 <span className="text-sm">{likes}</span>
-              </Button>{" "}
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"
@@ -286,21 +338,33 @@ export default function PostCard({ post }: PostCardProps) {
                               <span className="text-[10px] text-muted-foreground">
                                 {formatTimestamp(comment.createdAt)}
                               </span>
-                            </div>
+                            </div>{" "}
                             {!isEditing && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 w-6 p-0 hover:bg-accent"
-                                onClick={() =>
-                                  handleCommentEdit(
-                                    comment.id.toString(),
-                                    commentData.text
-                                  )
-                                }
-                              >
-                                <Pencil className="h-3 w-3" />
-                              </Button>
+                              <div className="flex items-center gap-1">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0 hover:bg-accent"
+                                  onClick={() =>
+                                    handleCommentEdit(
+                                      comment.id.toString(),
+                                      commentData.text
+                                    )
+                                  }
+                                >
+                                  <Pencil className="h-3 w-3" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0 hover:bg-accent hover:text-destructive"
+                                  onClick={() =>
+                                    handleDeleteComment(comment.id.toString())
+                                  }
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </div>
                             )}
                           </div>
                           {isEditing ? (

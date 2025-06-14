@@ -16,10 +16,16 @@ export const useSharePost = () => {
       const response = await axiosInstance.post(`/reaction`, newShareData);
       return response.data.reaction.postId as string;
     },
-    onSuccess: (_data, postId) => {
-      // Invalidate the post's comments or the post itself if needed
+    onSuccess: (_data, { postId }) => {
+      // Invalidate the specific post's reactions
       queryClient.invalidateQueries({
-        queryKey: ["post", postId],
+        queryKey: ["post-reactions", postId.toString()],
+      });
+
+      // Invalidate the general posts list
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+        exact: true,
       });
     },
     onError: (error) => {

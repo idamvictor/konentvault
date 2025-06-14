@@ -20,7 +20,7 @@ const getPostReactions = async (
 
 export const useGetPostReactions = (id: string) => {
   return useQuery<ReactionsResponse | null>({
-    queryKey: ["post", id],
+    queryKey: ["post-reactions", id],
     queryFn: async () => getPostReactions(id),
   });
 };

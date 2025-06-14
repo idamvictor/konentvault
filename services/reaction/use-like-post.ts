@@ -13,16 +13,27 @@ export const useLikePost = () => {
   return useMutation({
     mutationFn: async (likeValue: LikePostData) => {
       const response = await axiosInstance.post(`/reaction`, likeValue);
-      return response.data.reaction.postId as string;
+      return response.data.reaction;
     },
-    onSuccess: (_data, postId) => {
-      // Invalidate the post's comments or the post itself if needed
+    onSuccess: (_data, { postId }) => {
+      // Invalidate the specific post's reactions
       queryClient.invalidateQueries({
-        queryKey: ["post", postId],
+        queryKey: ["post-reactions", postId.toString()],
+      });
+
+      // Invalidate the general posts list
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+        exact: true,
+      });
+
+      // Invalidate any post-specific queries
+      queryClient.invalidateQueries({
+        queryKey: ["post", postId.toString()],
       });
     },
     onError: (error) => {
-      let message = "Failed to create post";
+      let message = "Failed to like post";
       if (error instanceof AxiosError) {
         message = error.response?.data?.error || error.message;
       }

@@ -12,23 +12,30 @@ export interface Comment {
 
 export const useAddComment = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async (newComment: Comment) => {
       const response = await axiosInstance.post(`/reaction`, newComment);
-      return response.data.reaction.postId as string;
+      return response.data.reaction;
     },
-    onSuccess: (_, variables) => {
-      // Invalidate both the specific post and the posts list queries
+    onSuccess: (data, variables) => {
+      // Invalidate the specific post's reactions
       queryClient.invalidateQueries({
-        queryKey: ["post", variables.postId],
+        queryKey: ["post-reactions", variables.postId.toString()],
       });
+
+      // Invalidate the general posts list
       queryClient.invalidateQueries({
-        queryKey: ["posts"], // This will refresh the main feed
+        queryKey: ["posts"],
+        exact: true,
+      });
+
+      // Invalidate any post-specific queries
+      queryClient.invalidateQueries({
+        queryKey: ["post", variables.postId.toString()],
       });
 
       // Optimistically update the post's comment count
-      const postKey = ["post", variables.postId];
+      const postKey = ["post", variables.postId.toString()];
       queryClient.setQueryData<Post>(postKey, (oldData) => {
         if (!oldData) return oldData;
         return {
@@ -36,11 +43,9 @@ export const useAddComment = () => {
           reactions: [
             ...(oldData.reactions || []),
             {
-              id: Math.random(), // temporary ID for optimistic update
-              userId: -1, // temporary userId for optimistic update
-              postId: variables.postId,
-              content: variables.text,
+              ...data, // Use the actual returned reaction data
               type: "comment",
+              content: variables.text,
             },
           ],
         };

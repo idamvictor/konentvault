@@ -26,8 +26,20 @@ export const useUpdateComment = () => {
     },
     onSuccess: (_data, variables) => {
       // Invalidate the post's reactions query to refresh the comments
+      // Invalidate the specific post's reactions
       queryClient.invalidateQueries({
-        queryKey: ["post-reactions", variables.postId],
+        queryKey: ["post-reactions", variables.postId.toString()],
+      });
+
+      // Invalidate the general posts list
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+        exact: true,
+      });
+
+      // Invalidate any post-specific queries
+      queryClient.invalidateQueries({
+        queryKey: ["post", variables.postId.toString()],
       });
     },
     onError: (error) => {
