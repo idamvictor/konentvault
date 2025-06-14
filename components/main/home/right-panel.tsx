@@ -8,7 +8,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SuggestionCard } from "./right-panel/suggestion-card";
-import { Separator } from "@/components/ui/separator";
 import { useGetCreators } from "@/services/creator/get-creators";
 import { useState, useMemo } from "react";
 
