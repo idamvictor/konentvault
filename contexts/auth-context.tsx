@@ -61,7 +61,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(user);
 
       // Redirect based on user role if it exists in the response
-      const redirectPath = user.role === "creator" ? "/creator/home" : "/home";
+      const redirectPath =
+        user.userType === "creator" ? "/creator/home" : "/home";
       router.push(redirectPath);
     } catch (error) {
       const apiError = error as ApiError;
