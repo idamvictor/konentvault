@@ -43,7 +43,7 @@ export const useDeleteReaction = () => {
 
       // Invalidate any post-reactions queries
       queryClient.invalidateQueries({
-        queryKey: ["post-reactions"],
+        queryKey: ["post-reactions", postId?.toString()],
         exact: false,
       });
     },

@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Post as ApiPost } from "@/types/post-types";
 import { formatTimestamp } from "@/helpers/format-timestamp";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAddComment } from "@/services/reaction/use-add-comment";
 import { useGetPostReactions } from "@/services/reaction/get-post-reactions";
 import { useUpdateComment } from "@/services/reaction/use-update-comment";
@@ -84,6 +84,18 @@ export default function PostCard({ post }: PostCardProps) {
       )?.id || null
     );
   });
+
+  useEffect(() => {
+    if (postReactions?.reactions && post?.user) {
+      // Find if the current user liked the post
+      const liked = postReactions.reactions.find(
+        (r) => r.type === "like" && r.userId === post.user.id
+      );
+
+      setIsLiked(!!liked);
+      setCurrentLikeId(liked?.id ?? null);
+    }
+  }, [postReactions, post]);
 
   const deletePostMutation = useDeletePost();
 
