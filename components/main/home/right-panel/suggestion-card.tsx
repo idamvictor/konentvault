@@ -3,29 +3,29 @@ import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Creators } from "@/types/creators";
 
-interface Suggestion {
-  name: string;
-  username: string;
-  avatar: string;
-  coverImage: string;
-  badge?: string;
-}
+type Creator = Creators[0];
 
 interface SuggestionCardProps {
-  suggestion: Suggestion;
+  creator: Creator;
 }
 
-export function SuggestionCard({ suggestion }: SuggestionCardProps) {
+export function SuggestionCard({ creator }: SuggestionCardProps) {
+  const defaultImage =
+    "https://res.cloudinary.com/dyp8gtllq/image/upload/v1739222053/Mothers_20and_20their_20children_20_20at_20ANC_20clinic_20in_20Homa_20Bay_i25atg.jpg";
+  const imageBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
   return (
     <Card className="relative overflow-hidden p-0">
       <div className="h-24 relative">
         <Image
           src={
-            suggestion.coverImage ||
-            "https://source.unsplash.com/random/800x600?nature,abstract"
+            creator.coverImage
+              ? `${imageBaseUrl}/${creator.coverImage}`
+              : defaultImage
           }
-          alt={`${suggestion.name} cover`}
+          alt={`${creator.name} cover`}
           className="object-cover"
           fill
           sizes="(max-width: 768px) 100vw, 25vw"
@@ -42,24 +42,31 @@ export function SuggestionCard({ suggestion }: SuggestionCardProps) {
         </Button>
 
         <div className="absolute bottom-2 left-2 flex items-center gap-2">
+          {" "}
           <Avatar className="h-8 w-8 border-2 border-white">
             <AvatarImage
               src={
-                suggestion.avatar ||
-                "https://source.unsplash.com/random/150x150?face,portrait"
+                creator.profilePicture
+                  ? `${imageBaseUrl}/${creator.profilePicture}`
+                  : undefined
               }
-              alt={suggestion.name}
+              alt={creator.name}
             />
-            <AvatarFallback>{suggestion.name.slice(0, 2)}</AvatarFallback>
+            <AvatarFallback>
+              {creator.name.slice(0, 1).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="text-white">
             <div className="flex items-center gap-1">
-              <span className="text-sm font-semibold">{suggestion.name}</span>
-              {suggestion.badge && (
-                <span className="text-xs">{suggestion.badge}</span>
+              <span className="text-sm font-semibold">{creator.name}</span>
+              {creator.isVerified && <span className="text-xs">✓</span>}
+              {creator.subscriptionPrice && (
+                <span className="text-xs ml-1">
+                  ${creator.subscriptionPrice}
+                </span>
               )}
             </div>
-            <p className="text-xs opacity-90">{suggestion.username}</p>
+            <p className="text-xs opacity-90">@{creator.username}</p>
           </div>
         </div>
       </div>

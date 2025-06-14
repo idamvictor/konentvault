@@ -1,4 +1,4 @@
-interface Creator {
+export interface Creator {
   id: number;
   name: string;
   username: string;
