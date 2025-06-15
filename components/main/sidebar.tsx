@@ -14,7 +14,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import UserMenuModal from "./modals/main/UserMenuModal";
-import { useAuth } from "@/contexts/auth-context";
+import { useUserStore } from "@/store/use-user-store";
+
+const getInitials = (name: string | undefined) => {
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
 
 const navigationItems = [
   { icon: Home, label: "Home", href: "/home", badge: null },
@@ -28,8 +38,7 @@ const navigationItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const { user } = useAuth();
+  const user = useUserStore((state) => state.user);
 
   const handleMoreClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -47,12 +56,12 @@ export default function Sidebar() {
           <div className="p-6">
             <div className="flex items-center space-x-4">
               <Avatar className="w-12 h-12 ring-2 ring-primary/10">
-                <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarImage src={user?.avatar} />
+                <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-[15px] font-semibold text-gray-900 truncate">
-                  Your Account
+                  {user?.name || "Your Account"}
                 </p>
                 <p className="text-sm text-gray-500 truncate">{user?.email}</p>
               </div>

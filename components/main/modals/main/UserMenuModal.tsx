@@ -13,7 +13,17 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useAuth } from "@/contexts/auth-context";
+import { useUserStore } from "@/store/use-user-store";
+
+const getInitials = (name: string | undefined) => {
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
 
 interface UserMenuModalProps {
   isOpen: boolean;
@@ -21,7 +31,8 @@ interface UserMenuModalProps {
 }
 
 export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
-  const { logout, isAuthenticated,user } = useAuth();
+  const user = useUserStore((state) => state.user);
+  const clearStore = useUserStore((state) => state.clearStore);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -29,15 +40,17 @@ export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <Avatar className="w-12 h-12">
-            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarImage src={user?.avatar} />
+            <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
           </Avatar>
         </div>
 
         {/* User Info */}
         <div className="space-y-1">
-          <h2 className="font-semibold text-foreground">{user?.name}</h2>
-          <p className="text-sm text-muted-foreground">@u453162462</p>
+          <h2 className="font-semibold text-foreground">
+            {user?.name || "Anonymous"}
+          </h2>
+          <p className="text-sm text-muted-foreground">@{user?.id || "user"}</p>
         </div>
 
         <div className="mt-4 flex gap-1">
@@ -93,7 +106,12 @@ export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
         <Separator className="my-4" />
 
         {/* Footer */}
-        <Button variant="ghost" className="w-full justify-start text-sm h-9" onClick={logout} disabled={!isAuthenticated}>
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-sm h-9"
+          onClick={clearStore}
+          disabled={!user}
+        >
           Log out
         </Button>
       </DialogContent>
