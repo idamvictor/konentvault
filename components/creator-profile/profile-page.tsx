@@ -123,7 +123,9 @@ export default function ProfilePage({ username }: { username: string }) {
         // stats={profile.stats}
         />
 
-        <ProfileBio bio={profile.bio} features={profile.features} />
+        <ProfileBio
+        // bio={profile.bio} features={profile.features}
+        />
 
         <SubscriptionSection
           monthlyPrice={profile.monthlyPrice}
