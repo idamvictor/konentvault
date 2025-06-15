@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Camera, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profiile";
 
 interface ProfileData {
   displayName: string;
@@ -25,20 +26,38 @@ interface ProfileData {
 }
 
 export function ProfileEditor() {
+  const { data: userProfile } = useGetAuthUserProfile();
+  const [isLoading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
-    displayName: "Creator849214764",
-    username: "zack25",
-    phoneNumber: "8064037149",
-    email: "zechara.honibei@yahoo.com",
-    bio: "checking out things",
+    displayName: userProfile?.displayName || userProfile?.name || "",
+    username: userProfile?.username || "",
+    phoneNumber: userProfile?.phone || "",
+    email: userProfile?.email || "",
+    bio: userProfile?.bio || "",
     socialMedia: {
       twitter: "",
       instagram: "",
-      facebook: "zack",
+      facebook: "",
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  // Update profile data when userProfile changes
+  useEffect(() => {
+    if (userProfile) {
+      setProfileData({
+        displayName: userProfile.displayName || userProfile.name || "",
+        username: userProfile.username || "",
+        phoneNumber: userProfile.phone || "",
+        email: userProfile.email || "",
+        bio: userProfile.bio || "",
+        socialMedia: {
+          twitter: "",
+          instagram: "",
+          facebook: "",
+        },
+      });
+    }
+  }, [userProfile]);
 
   const handleInputChange = (field: keyof ProfileData, value: string) => {
     setProfileData((prev) => ({
@@ -100,8 +119,11 @@ export function ProfileEditor() {
               {/* Banner Section */}
               <div className="relative h-48 sm:h-64 overflow-hidden rounded-t-lg">
                 <Image
-                  src="https://res.cloudinary.com/dyp8gtllq/image/upload/v1737075755/cld-sample.jpg"
-                  alt="Profile banner with colorful geometric gradient"
+                  src={
+                    userProfile?.coverImage ||
+                    "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737075755/cld-sample.jpg"
+                  }
+                  alt="Profile banner"
                   fill
                   className="object-cover"
                   priority
@@ -120,9 +142,12 @@ export function ProfileEditor() {
               <div className="relative px-6 pb-6">
                 <div className="relative -mt-16 sm:-mt-20">
                   <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-background shadow-lg">
-                    <AvatarImage src="/placeholder.svg" alt="Profile picture" />
+                    <AvatarImage
+                      src={userProfile?.profilePicture || "/placeholder.svg"}
+                      alt={userProfile?.name || "Profile picture"}
+                    />
                     <AvatarFallback className="bg-gradient-to-br from-primary to-primary-foreground text-background text-xl sm:text-2xl">
-                      U
+                      {userProfile?.name?.charAt(0).toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                   <Button
