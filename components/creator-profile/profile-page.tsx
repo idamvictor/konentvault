@@ -87,11 +87,7 @@ type ContentItem = {
   duration?: string;
 };
 
-export default function ProfilePage({
-  params: { username },
-}: {
-  params: { username: string };
-}) {
+export default function ProfilePage({ username }: { username: string }) {
   const [activeTab, setActiveTab] = useState<"posts" | "media">("posts");
   const [activeFilter, setActiveFilter] = useState("All");
 

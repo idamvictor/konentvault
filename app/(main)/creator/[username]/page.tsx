@@ -1,15 +1,18 @@
 import ProfilePage from "@/components/creator-profile/profile-page";
 import React from "react";
 
-export default function CreatorProfilePage({
+interface CreatorProfilePageProps {
+  params: Promise<{ username: string }>;
+}
+
+export default async function CreatorProfilePage({
   params,
-}: {
-  params: { username: string };
-}) {
+}: CreatorProfilePageProps) {
+  const username = (await params).username;
   return (
     <div className="w-full">
       {" "}
-      <ProfilePage params={{ username: params.username }} />
+      <ProfilePage username={username} />
     </div>
   );
 }
