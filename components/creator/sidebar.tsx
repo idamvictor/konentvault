@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
+import { useUserStore } from "@/store/use-user-store";
 
 // Group definitions for the sidebar
 const mainNavigation = [
@@ -74,6 +75,8 @@ const preferences = [
 export default function Sidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
+  const user = useUserStore((state) => state.user);
+
   return (
     <>
       <nav
@@ -170,14 +173,16 @@ export default function Sidebar() {
         <div className="p-3 mt-auto border-t border-border">
           <div className="flex items-center gap-x-4 p-2 bg-primary/20 rounded-xl">
             <Avatar className="w-10 h-10 ring-2 ring-primary/10">
-              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" />
-              <AvatarFallback>C</AvatarFallback>
+              <AvatarImage src={user?.avatar || ""} />
+              <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-[15px] font-semibold text-foreground truncate">
-                Creator8492147164
+                {user?.name || "Anonymous"}
               </p>
-              <p className="text-sm text-muted-foreground truncate">@zack25</p>
+              <p className="text-sm text-muted-foreground truncate">
+                {user?.email || ""}
+              </p>
             </div>
             <button
               className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
