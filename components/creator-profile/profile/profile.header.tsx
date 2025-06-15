@@ -2,6 +2,7 @@ import { ArrowLeft, MoreVertical, Heart, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VerificationBadge } from "../ui/verification-badge";
+import { useRouter } from "next/navigation";
 
 interface ProfileHeaderProps {
   coverImage: string;
@@ -24,6 +25,8 @@ export function ProfileHeader({
   lastSeen,
   stats,
 }: ProfileHeaderProps) {
+  const router = useRouter();
+
   return (
     <div className="relative">
       {/* Cover Image */}
@@ -38,6 +41,7 @@ export function ProfileHeader({
               variant="ghost"
               size="icon"
               className="text-white hover:bg-white/20"
+              onClick={() => router.back()}
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
