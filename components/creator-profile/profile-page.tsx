@@ -117,7 +117,7 @@ export default function ProfilePage({
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <div className="flex-1 max-w-2xl mx-auto bg-white">
+      <div className="flex-1 max-w-2xl border border-l-border bg-white">
         <ProfileHeader
           coverImage={profile.coverImage}
           avatar={profile.avatar}
