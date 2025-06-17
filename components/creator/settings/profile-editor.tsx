@@ -118,10 +118,12 @@ export function ProfileEditor() {
             <CardContent className="p-0">
               {/* Banner Section */}
               <div className="relative h-48 sm:h-64 overflow-hidden rounded-t-lg">
+                {" "}
                 <Image
                   src={
-                    userProfile?.coverImage ||
-                    "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737075755/cld-sample.jpg"
+                    userProfile?.coverImage
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/${userProfile.coverImage}`
+                      : "https://res.cloudinary.com/dyp8gtllq/image/upload/v1737075755/cld-sample.jpg"
                   }
                   alt="Profile banner"
                   fill
@@ -142,8 +144,13 @@ export function ProfileEditor() {
               <div className="relative px-6 pb-6">
                 <div className="relative -mt-16 sm:-mt-20">
                   <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-background shadow-lg">
+                    {" "}
                     <AvatarImage
-                      src={userProfile?.profilePicture || "/placeholder.svg"}
+                      src={
+                        userProfile?.profilePicture
+                          ? `${process.env.NEXT_PUBLIC_API_URL}/${userProfile.profilePicture}`
+                          : "/placeholder.svg"
+                      }
                       alt={userProfile?.name || "Profile picture"}
                     />
                     <AvatarFallback className="bg-gradient-to-br from-primary to-primary-foreground text-background text-xl sm:text-2xl">
