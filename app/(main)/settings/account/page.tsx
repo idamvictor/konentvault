@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileForm from "@/components/main/settings/profile-form";
+import ProfileForm from "@/components/main/settings/account/profile-form";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Account = () => {
