@@ -6,7 +6,7 @@ import { Camera, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import {
   uploadCoverImage,
   uploadProfileImage,

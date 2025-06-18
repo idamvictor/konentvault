@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   CreatorsApiResponse,
   dataApiResponse,
@@ -6,7 +8,7 @@ import {
   UserApiResponse,
 } from "@/types/api";
 import { PaymentDetails, User } from "@/types/user";
-import apiClient from "@/lib/apiClient";
+import { axiosInstance as apiClient } from "@/lib/axios";
 
 type RawPaymentDetails = {
   bankName: string;

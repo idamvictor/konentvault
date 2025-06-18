@@ -56,7 +56,10 @@ export default function Sidebar() {
           <div className="p-6">
             <div className="flex items-center space-x-4">
               <Avatar className="w-12 h-12 ring-2 ring-primary/10">
-                <AvatarImage src={user?.profilePicture ?? undefined} />
+                <AvatarImage
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/${user?.profilePicture}`}
+                  className="w-fill"
+                />
                 <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">

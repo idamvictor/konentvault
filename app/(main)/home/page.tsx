@@ -25,24 +25,6 @@ export default function Landing() {
           <RightPanel />
         </Suspense>
       </aside>
-
-      {/* Mobile Navigation Overlay */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-2 z-20">
-        <div className="flex justify-around">
-          <button className="p-2 text-muted-foreground hover:text-foreground">
-            Home
-          </button>
-          <button className="p-2 text-muted-foreground hover:text-foreground">
-            Search
-          </button>
-          <button className="p-2 text-muted-foreground hover:text-foreground">
-            Messages
-          </button>
-          <button className="p-2 text-muted-foreground hover:text-foreground">
-            Profile
-          </button>
-        </div>
-      </div>
     </>
   );
 }

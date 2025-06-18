@@ -6,6 +6,7 @@ import { useState } from "react";
 import EmptyState from "./empty-state";
 import ProfileTabs from "./profile-tabs";
 import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profile";
+import Link from "next/link";
 
 export default function ProfileView() {
   const [activeTab, setActiveTab] = useState<"posts" | "media">("posts");
@@ -42,9 +43,10 @@ export default function ProfileView() {
     <div className="flex flex-col">
       {/* Header with cover image */}{" "}
       <div className="relative h-[200px] w-full bg-muted">
+        {" "}
         {profile.coverImage && (
           <Image
-            src={profile.coverImage}
+            src={`${process.env.NEXT_PUBLIC_API_URL}/${profile.coverImage}`}
             alt="Cover image"
             fill
             className="object-cover"
@@ -68,12 +70,14 @@ export default function ProfileView() {
         <div className="absolute -top-12 left-4">
           {" "}
           <div className="relative h-24 w-24 rounded-full border-4 border-background overflow-hidden">
+            {" "}
             {profile.profilePicture ? (
               <Image
-                src={profile.profilePicture}
+                src={`${process.env.NEXT_PUBLIC_API_URL}/${profile.profilePicture}`}
                 alt="Profile picture"
                 fill
                 className="object-cover"
+                priority
               />
             ) : (
               <div className="h-full w-full bg-muted flex items-center justify-center">
@@ -85,10 +89,12 @@ export default function ProfileView() {
         </div>
         {/* Profile actions */}
         <div className="flex justify-end gap-2 mb-4">
-          <button className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium">
-            <Settings className="h-4 w-4" />
-            EDIT PROFILE
-          </button>
+          <Link href="/settings/account">
+            <button className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium">
+              <Settings className="h-4 w-4" />
+              EDIT PROFILE
+            </button>
+          </Link>
           <button className="flex items-center justify-center rounded-full border border-border bg-background p-2">
             <svg
               width="20"

@@ -1,11 +1,12 @@
 "use client";
 
 import ProfileForm from "@/components/main/settings/profile-form";
-import { useUserStore } from "@/store/use-user-store";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Account = () => {
-  const user = useUserStore((state) => state.user);
+  const { user, isLoading } = useUserProfile();
 
+  if (isLoading) return <div>Loading...</div>;
   if (!user) return null;
 
   return (
