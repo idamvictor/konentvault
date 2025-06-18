@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 export default function Landing() {
   return (
-    <>
+    <div className="flex">
       {/* Main Content Area */}
       <main className="flex-1 max-w-none">
         <div className="">
@@ -25,6 +25,6 @@ export default function Landing() {
           <RightPanel />
         </Suspense>
       </aside>
-    </>
+    </div>
   );
 }

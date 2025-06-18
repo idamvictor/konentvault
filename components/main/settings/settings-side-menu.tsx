@@ -50,7 +50,7 @@ const SettingsSideMenu = () => {
   const pathname = usePathname();
 
   return (
-    <section className="custom-scrollbar bg-bgColor rightsidebar border-l p-0 pt-4">
+    <section className="flex-1 custom-scrollbar bg-bgColor rightsidebar border-l p-0 pt-4">
       <div className="flex flex-1 flex-col justify-start">
         <div className="px-4">
           <h3 className="text-sm sm:text-base uppercase font-medium text-foreground">

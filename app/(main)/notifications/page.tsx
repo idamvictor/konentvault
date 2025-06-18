@@ -5,9 +5,9 @@ import React, { Suspense } from "react";
 
 export default function NotificationsPage() {
   return (
-    <>
+    <div className="flex">
       {/* Main Content Area */}
-      <main className="flex-1 max-w-none">
+      <main className="flex w-[70%]">
         <div className="">
           <Suspense fallback={<LoadingSkeleton />}>
             <NotificationContent />
@@ -16,13 +16,13 @@ export default function NotificationsPage() {
       </main>
 
       {/* Right Panel */}
-      <aside className="hidden lg:block w-[25%] bg-sidebar border-l border-sidebar-border h-full z-10">
+      <aside className="hidden lg:block bg-sidebar border-l border-sidebar-border h-full z-10">
         <Suspense
           fallback={<div className="p-4 text-muted-foreground">Loading...</div>}
         >
           <RightPanel />
         </Suspense>
       </aside>
-    </>
+    </div>
   );
 }

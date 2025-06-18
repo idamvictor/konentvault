@@ -15,7 +15,7 @@ export default function Layout({
         </aside>
 
         {/* Main Content Area */}
-        {children}
+        <div className="w-full">{children}</div>
       </div>
     </ProtectedRoute>
   );
