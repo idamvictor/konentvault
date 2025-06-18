@@ -5,8 +5,8 @@ import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { ApiError, AuthError } from "@/lib/errors";
 import { useUserStore } from "@/store/use-user-store";
-import type { User } from "@/store/use-user-store";
 import { AxiosError } from "axios";
+import { User } from "@/types/user";
 
 interface RegisterData {
   name: string;

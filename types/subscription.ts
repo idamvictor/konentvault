@@ -22,3 +22,11 @@ interface Subscription {
 }
 
 export type Subscriptions = { Subscriptions: Subscription[] };
+
+export type SubscriptionPlan = {
+  id: number;
+  name: string;
+  price: string;
+  duration: number;
+  createdAt: string;
+};

@@ -3,8 +3,9 @@
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { useUserStore, type User } from "@/store/use-user-store";
 import LoadingScreen from "@/components/loaders/loading-screen";
+import { useUserStore } from "@/store/use-user-store";
+import { User } from "@/types/user";
 
 export default function ProtectedRoute({
   children,

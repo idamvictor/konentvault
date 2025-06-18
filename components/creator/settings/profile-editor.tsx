@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
-import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profiile";
+import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profile";
 
 interface ProfileData {
   displayName: string;

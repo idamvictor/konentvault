@@ -173,7 +173,7 @@ export default function Sidebar() {
         <div className="p-3 mt-auto border-t border-border">
           <div className="flex items-center gap-x-4 p-2 bg-primary/20 rounded-xl">
             <Avatar className="w-10 h-10 ring-2 ring-primary/10">
-              <AvatarImage src={user?.avatar || ""} />
+              <AvatarImage src={user?.profilePicture || ""} />
               <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">

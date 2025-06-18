@@ -40,7 +40,7 @@ export default function UserMenuModal({ isOpen, onClose }: UserMenuModalProps) {
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <Avatar className="w-12 h-12">
-            <AvatarImage src={user?.avatar} />
+            <AvatarImage src={user?.profilePicture || ""} />
             <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
           </Avatar>
         </div>

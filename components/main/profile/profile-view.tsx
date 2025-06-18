@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import EmptyState from "./empty-state";
 import ProfileTabs from "./profile-tabs";
-import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profiile";
+import { useGetAuthUserProfile } from "@/services/user/get-auth-user-profile";
 
 export default function ProfileView() {
   const [activeTab, setActiveTab] = useState<"posts" | "media">("posts");
