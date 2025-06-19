@@ -1,32 +1,13 @@
 "use client";
 
-import { fetchUserProfile } from "@/services/user/user-services";
-import { useUserStore } from "@/store/use-user-store";
-import { User } from "@/types/user";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React from "react";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BankingForm from "../../../../components/main/settings/banking/BankingForm";
 import { FormSkeleton } from "@/components/skeletons/form-skeleton";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 const BankingSettings = () => {
-  const { setUser } = useUserStore((state) => state);
-
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery<User>({
-    queryKey: ["userProfile"],
-    queryFn: fetchUserProfile,
-  });
-
-  // ✅ Update Zustand state when user changes
-  useEffect(() => {
-    if (user) {
-      setUser(user);
-    }
-  }, [user, setUser]);
+  const { user, isLoading, error } = useUserProfile();
 
   if (isLoading) return <FormSkeleton />;
   if (error) return <p>Error: {(error as Error).message}</p>;
@@ -40,17 +21,6 @@ const BankingSettings = () => {
         </div>
       </div>
       <div className="px-4 mt-4">
-        {/* <Tabs defaultValue="banking" className="w-full">
-				<TabsList className="w-full bg-transparent justify-start">
-					<TabsTrigger value="banking" className="flex items-center gap-2">
-						<Image src="/banking/banking-ico.avif" width={32} height={32} className="object-contain" alt="bank" />
-						Bank Transfer
-					</TabsTrigger>
-					<TabsTrigger value="password">Password</TabsTrigger>
-				</TabsList>
-				<TabsContent value="banking">Make changes to your account here.</TabsContent>
-				<TabsContent value="password">Change your password here.</TabsContent>
-			</Tabs> */}
         <BankingForm user={user} />
       </div>
     </section>
