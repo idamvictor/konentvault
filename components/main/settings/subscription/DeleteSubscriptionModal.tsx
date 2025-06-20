@@ -59,7 +59,7 @@ export function DeleteSubscriptionModal({
       <DialogTrigger asChild onClick={() => setOpen(true)}>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="sm:mx-auto max-w-[95%] sm:max-w-xl mx-auto bg-bgColor p-4 rounded">
+      <DialogContent className="sm:mx-auto max-w-[95%] sm:max-w-xl mx-auto p-4 rounded">
         <DialogHeader className="text-left">
           <DialogTitle> Delete Plan</DialogTitle>
         </DialogHeader>

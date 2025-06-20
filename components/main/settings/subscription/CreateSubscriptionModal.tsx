@@ -22,7 +22,7 @@ export function CreateSubscriptionModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:mx-auto max-w-[95%] sm:max-w-xl mx-auto bg-bgColor p-4 rounded">
+      <DialogContent className="sm:mx-auto max-w-[95%] sm:max-w-xl mx-auto p-4 rounded">
         <DialogHeader className="text-left">
           <DialogTitle>Create Subscription Plan</DialogTitle>
         </DialogHeader>
