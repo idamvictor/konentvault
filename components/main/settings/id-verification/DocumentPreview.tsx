@@ -1,4 +1,4 @@
-import { Image, Trash2Icon } from "lucide-react";
+import { Images, Trash2Icon } from "lucide-react";
 import React from "react";
 
 interface DocumentPreviewProps {
@@ -15,7 +15,7 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
     // This should be a styled component that shows the file name and a remove button
     <div className="flex gap-2 justify-between rounded-3xl mt-2 bg-gray-200 opacity-50 p-1 px-2">
       <div className="flex items-center gap-2">
-        <Image size={16} className="text-primary" />
+        <Images size={16} className="text-primary" />
         <div className="flex flex-col">
           <p className="text-sm font-semibold truncate max-w-60 text-foreground">
             {fileName}

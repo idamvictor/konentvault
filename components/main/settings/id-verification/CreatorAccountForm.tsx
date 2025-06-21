@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { identityVerificationFormSchema } from "@/schema/account";
 import { z } from "zod";
-import { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -134,15 +133,14 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
         queryKey: ["userProfile"],
         exact: false,
       });
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("error", error);
-      if (error instanceof AxiosError) {
-        toast.error(
-          error.response?.data?.message ||
-            error.message ||
-            "An error occurred during verification"
-        );
-      }
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          "An error occurred during verification"
+      );
     } finally {
       setLoading(false);
     }
