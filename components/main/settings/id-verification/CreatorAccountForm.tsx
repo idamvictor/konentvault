@@ -142,8 +142,6 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
             error.message ||
             "An error occurred during verification"
         );
-      } else {
-        toast.error("An unexpected error occurred during verification");
       }
     } finally {
       setLoading(false);
