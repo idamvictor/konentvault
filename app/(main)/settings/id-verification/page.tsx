@@ -9,7 +9,7 @@ const IdentityVerification = () => {
 
   return (
     <>
-      <div className="pt-4 sticky top-0 w-full bg-bgColor border-b border-border z-10">
+      <div className="pt-4 sticky top-0 w-full bg-background border-b border-border z-10">
         <div className="px-4">
           <h3 className="text-sm sm:text-base uppercase font-medium text-foreground mb-4">
             Upgrade your account

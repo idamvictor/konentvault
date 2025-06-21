@@ -247,13 +247,18 @@ export const verifyCreatorAccount = async (
       formData,
       { headers: { "Content-Type": "multipart/form-data" } } // Optional, usually not needed
     );
+    // Check for success property in the response
+    if (!response.data.success) {
+      throw new Error(response.data.message || "Verification request failed.");
+    }
     return response.data;
   } catch (error: any) {
     if (error.response && error.response.data) {
       console.log(error.response.data);
-
       throw new Error(
-        error.response.data.error || "Failed to verify creator account."
+        error.response.data.error ||
+          error.response.data.message ||
+          "Failed to verify creator account."
       );
     }
     throw new Error("Network error, please try again.");

@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { countries, documentTypes, statesInNigeria } from "@/constants";
+import { countries, documentTypes } from "@/constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CreatorDocumentUpload from "./CreatorDocumentUpload";
@@ -94,10 +94,6 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
       middleName: middleName,
       lastName: lastName,
       country: user.country,
-      state: user.state,
-      address: user.address,
-      city: user.city,
-      zipCode: user.zipCode,
       instagram: user.instagram,
       xTwitter: user.xTwitter,
       dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth) : undefined,
@@ -116,10 +112,6 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
       formData.append("middleName", values.middleName || "");
       formData.append("lastName", values.lastName);
       formData.append("country", values.country);
-      formData.append("state", values.state);
-      formData.append("address", values.address);
-      formData.append("city", values.city);
-      formData.append("zipCode", values.zipCode || "");
       formData.append("instagram", values.instagram || "");
       formData.append("xTwitter", values.xTwitter || "");
       formData.append("dateOfBirth", values.dateOfBirth?.toISOString() || "");
@@ -210,9 +202,7 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger>
-                    {field.value || "Select an option"}
-                  </SelectTrigger>
+                  <SelectTrigger>{field.value || "country"}</SelectTrigger>
                   <SelectContent>
                     {countries.map(({ label, value }) => (
                       <SelectItem key={value} value={value}>
@@ -226,69 +216,8 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="state"
-            render={({ field }) => (
-              <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="State / Province" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statesInNigeria.map(({ value, label }) => (
-                      <SelectItem key={value} value={value}>
-                        {label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Removed: state, address, city, zipCode fields */}
 
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Address" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="City" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="zipCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Zip Code" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="instagram"
@@ -322,11 +251,12 @@ const CreatorAccountForm = ({ user }: CreatorAccountFormProps) => {
           />
 
           {/* date of birth */}
+
           <FormField
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="border-border-lg shadow border-2 rounded">
                 <DatePicker
                   showIcon // Show calendar icon
                   selected={field.value} // Use field.value as the selected date
