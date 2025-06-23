@@ -1,12 +1,13 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import EditProfile from "./EditProfile";
+// import EditProfile from "./EditProfile";
 import IdentityVerification from "@/components/main/settings/id-verification/identity-verification";
 import SubscriptionSetting from "@/app/(main)/settings/subscription/page";
 import BankingSettings from "@/components/main/settings/banking/banking-settings";
 import EmailSetting from "@/components/main/settings/security/email-setting";
 import PasswordSetting from "@/components/main/settings/security/password-setting";
+import Account from "@/components/main/settings/account/account";
 
 export function ProfileEditor() {
   return (
@@ -33,46 +34,37 @@ export function ProfileEditor() {
         <TabsContent value="account" className="space-y-8">
           <div className="border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Account</h2>
-            <p className="text-muted-foreground">
-              <EditProfile />{" "}
-            </p>
+            {/* <EditProfile />{" "} */}
+            <Account />
           </div>
         </TabsContent>
 
         <TabsContent value="security">
           <div className="border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Security</h2>
-            <p className="text-muted-foreground">
-              <EmailSetting />
-              <PasswordSetting />
-            </p>
+            <EmailSetting />
+            <PasswordSetting />
           </div>
         </TabsContent>
 
         <TabsContent value="subscriptions">
           <div className="border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Subscriptions</h2>
-            <p className="text-muted-foreground">
-              <SubscriptionSetting />
-            </p>
+            <SubscriptionSetting />
           </div>
         </TabsContent>
 
         <TabsContent value="banking">
           <div className="border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Banking</h2>
-            <p className="text-muted-foreground">
-              <BankingSettings />
-            </p>
+            <BankingSettings />
           </div>
         </TabsContent>
 
         <TabsContent value="id-verification">
           <div className="border-border p-6">
             <h2 className="text-xl font-semibold mb-4">ID Verification</h2>
-            <p className="text-muted-foreground">
-              <IdentityVerification />
-            </p>
+            <IdentityVerification />
           </div>
         </TabsContent>
       </Tabs>

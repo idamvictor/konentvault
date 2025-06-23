@@ -150,7 +150,7 @@ const ProfileImageUpload = ({ user }: ProfileImageUploadProps) => {
   return (
     <div className="flex flex-col gap-4 justify-center w-full relative">
       {/* Cover Picture Section */}
-      <div className="h-32 overflow-hidden w-full relative">
+      <div className="h-52 overflow-hidden w-full relative">
         {coverFiles.length > 0 ? (
           coverThumbs
         ) : user?.coverImage ? (
