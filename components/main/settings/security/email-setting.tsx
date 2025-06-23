@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Form,
@@ -27,6 +28,8 @@ import VerifyEmailTokenDialog from "@/components/main/modals/VerifyEmailTokenDia
 
 const EmailSetting = () => {
   const { user } = useUserStore();
+  const pathname = usePathname();
+  const isCreatorSettings = pathname === "/creator/settings";
 
   const [loading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -66,15 +69,17 @@ const EmailSetting = () => {
     <>
       <div className="relative">
         <div className="flex gap-4 items-center p-4">
-          <Button
-            variant="link"
-            asChild
-            className="text-primary p-0 h-auto hover:text-primary hover:bg-transparent"
-          >
-            <Link href={"/settings/security"}>
-              <ArrowLeft size={25} />
-            </Link>
-          </Button>
+          {!isCreatorSettings && (
+            <Button
+              variant="link"
+              asChild
+              className="text-primary p-0 h-auto hover:text-primary hover:bg-transparent"
+            >
+              <Link href={"/settings/security"}>
+                <ArrowLeft size={25} />
+              </Link>
+            </Button>
+          )}
           <h3 className="text-sm sm:text-base uppercase font-medium text-foreground">
             Email Account
           </h3>
