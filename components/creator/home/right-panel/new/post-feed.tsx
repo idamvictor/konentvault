@@ -4,6 +4,7 @@ import { usePosts } from "@/hooks/use-posts";
 import { PostCard } from "./post-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, FileText } from "lucide-react";
+import { Post } from "@/lib/api";
 
 export function PostsFeed() {
   const { data, isLoading, error } = usePosts();
@@ -49,7 +50,7 @@ export function PostsFeed() {
 
   return (
     <div className="space-y-6">
-      {posts.map((post: post) => (
+      {posts.map((post: Post) => (
         <PostCard key={post.id} post={post} currentUserId={1} />
       ))}
     </div>
