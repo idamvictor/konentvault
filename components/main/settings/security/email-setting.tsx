@@ -116,14 +116,14 @@ const EmailSetting = () => {
                 disabled={loading}
                 variant={"outline"}
                 type="submit"
-                className="w-full text-primary rounded-[20px] uppercase hover:opacity-70"
+                className=" text-primary rounded-[20px] uppercase hover:opacity-70"
               >
                 {loading ? "Please wait..." : "Update Email Address"}
               </Button>
 
               <Button
                 disabled={resendLoading}
-                className="w-full bg-primary rounded-[20px] uppercase hover:opacity-70 hover:bg-primary"
+                className=" bg-primary rounded-[20px] uppercase hover:opacity-70 hover:bg-primary"
               >
                 {resendLoading ? "Please wait..." : "Send Confirmation"}
               </Button>
