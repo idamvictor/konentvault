@@ -44,11 +44,81 @@ import { formatDistanceToNow } from "date-fns";
 import { CommentSection } from "./comment-section";
 import { EditPostDialog } from "./edit-post-dialog";
 import Image from "next/image";
+import { MentionedCreators } from "./mentioned-creators";
+import { TipDialog } from "./tip-dialog";
 
 interface PostCardProps {
   post: Post;
   showActions?: boolean;
   currentUserId?: number;
+}
+
+interface MockCreatorCardProps {
+  username: string;
+  fullWidth?: boolean;
+  showMoreCount?: number;
+}
+
+function MockCreatorCard({
+  username,
+  fullWidth = false,
+  showMoreCount,
+}: MockCreatorCardProps) {
+  return (
+    <Card
+      className={`overflow-hidden hover:shadow-md transition-shadow cursor-pointer ${
+        fullWidth ? "col-span-full" : ""
+      }`}
+    >
+      <div className="relative h-24 bg-gradient-to-br from-blue-100 to-purple-100">
+        <div className="absolute top-2 left-2">
+          <Badge
+            variant="secondary"
+            className="bg-white/90 text-gray-700 text-xs"
+          >
+            Free
+          </Badge>
+        </div>
+
+        <div className="absolute top-2 right-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0 bg-white/20 hover:bg-white/30"
+          >
+            <MoreHorizontal className="h-3 w-3 text-white" />
+          </Button>
+        </div>
+
+        <div className="absolute bottom-2 left-2 flex items-center gap-2">
+          <div className="relative">
+            <Avatar className="w-8 h-8 border-2 border-white">
+              <AvatarFallback className="bg-blue-500 text-white text-xs">
+                {username.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1">
+              <h4 className="font-semibold text-white text-xs truncate">
+                @{username}
+              </h4>
+            </div>
+            <p className="text-white/80 text-xs truncate">@{username}</p>
+          </div>
+        </div>
+
+        {showMoreCount && showMoreCount > 0 && (
+          <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-lg">
+            <span className="text-white text-lg font-bold">
+              +{showMoreCount}
+            </span>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
 }
 
 export function PostCard({
@@ -78,6 +148,19 @@ export function PostCard({
     (r: any) => r.type === "like" && r.userId === currentUserId
   );
   const isLiked = !!userLike;
+
+  // Extract mentioned users from content as fallback
+  const extractMentionedUsersFromContent = () => {
+    const mentionMatches = post.content.match(/@(\w+)/g) || [];
+    return mentionMatches.map((match) => match.slice(1)); // Remove @ symbol
+  };
+
+  const mentionedUsernames = extractMentionedUsersFromContent();
+
+  // Show mentioned creators section if we have mentioned users or usernames in content
+  const shouldShowMentions =
+    (post.mentionedUsers && post.mentionedUsers.length > 0) ||
+    mentionedUsernames.length > 0;
 
   const handleLike = () => {
     if (isLiked && userLike) {
@@ -484,6 +567,87 @@ export function PostCard({
             </div>
           )}
 
+          {/* {post.mentionedUsers && post.mentionedUsers.length > 0 && (
+            <div className="mb-4">
+              <MentionedCreators creators={post.mentionedUsers} />
+            </div>
+          )} */}
+
+          {shouldShowMentions && (
+            <div className="mb-4">
+              {post.mentionedUsers && post.mentionedUsers.length > 0 ? (
+                <MentionedCreators creators={post.mentionedUsers} />
+              ) : mentionedUsernames.length > 0 ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700">
+                      Mentioned Creators
+                    </span>
+                    <Badge
+                      variant="outline"
+                      className="bg-blue-100 text-blue-800 border-blue-200 text-xs"
+                    >
+                      {mentionedUsernames.length}{" "}
+                      {mentionedUsernames.length === 1 ? "creator" : "creators"}
+                    </Badge>
+                  </div>
+
+                  {/* Mock creator cards for mentioned usernames */}
+                  {mentionedUsernames.length <= 2 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {mentionedUsernames.map((username, index) => (
+                        <MockCreatorCard key={index} username={username} />
+                      ))}
+                    </div>
+                  ) : mentionedUsernames.length === 3 ? (
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        {mentionedUsernames
+                          .slice(0, 2)
+                          .map((username, index) => (
+                            <MockCreatorCard key={index} username={username} />
+                          ))}
+                      </div>
+                      <MockCreatorCard
+                        username={mentionedUsernames[2]}
+                        fullWidth
+                      />
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        {mentionedUsernames
+                          .slice(0, 2)
+                          .map((username, index) => (
+                            <MockCreatorCard key={index} username={username} />
+                          ))}
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <MockCreatorCard username={mentionedUsernames[2]} />
+                        {mentionedUsernames[3] ? (
+                          <MockCreatorCard
+                            username={mentionedUsernames[3]}
+                            showMoreCount={
+                              mentionedUsernames.length > 4
+                                ? mentionedUsernames.length - 4
+                                : undefined
+                            }
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center bg-gray-100 rounded-lg h-24 text-gray-500">
+                            <span className="text-sm">
+                              +{mentionedUsernames.length - 3} more
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          )}
+
           <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
@@ -539,6 +703,22 @@ export function PostCard({
                 <Share2 className="w-4 h-4" />
                 <span className="text-xs">{sharesCount}</span>
               </Button>
+
+              <TipDialog
+                creatorId={post.user.id}
+                creatorName={post.user.name}
+                creatorUsername={post.user.username}
+                creatorProfilePicture={post.user.profilePicture}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 text-muted-foreground hover:text-yellow-500"
+                >
+                  <DollarSign className="w-4 h-4" />
+                  <span className="text-xs">TIP</span>
+                </Button>
+              </TipDialog>
             </div>
           </div>
 

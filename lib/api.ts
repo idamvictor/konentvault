@@ -22,6 +22,7 @@ export interface Post {
     mediaPath: string;
   }>;
   reactions: Reaction[];
+  mentionedUsers?: Creator[];
 }
 
 export interface Reaction {
@@ -47,6 +48,7 @@ export interface CreatePostData {
   type: "text" | "image" | "video" | "mixed";
   price?: number;
   payType: "free" | "ppv" | "subscription";
+  mentionedUserIds?: number[];
 }
 
 export interface UpdatePostData {
@@ -62,6 +64,44 @@ export interface CreateReactionData {
   media?: string;
 }
 
+export interface Creator {
+  id: number;
+  name: string;
+  username: string;
+  displayName: string | null;
+  email: string;
+  userType: string;
+  profilePicture: string | null;
+  coverImage: string | null;
+  phone: string | null;
+  country: string | null;
+  gender: string | null;
+  age: number | null;
+  bio: string | null;
+  welcomeMessage: string | null;
+  emailVerified: boolean;
+  isCreator: boolean;
+  isAdminUser: boolean;
+  dateOfBirth: string | null;
+  balance: string;
+  isVerified: boolean;
+  subscriptionPrice: string | null;
+  paymentDetails: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTipData {
+  amount: number;
+  creatorId: number;
+}
+
+export interface TipResponse {
+  success: boolean;
+  message: string;
+}
+
 // Post API functions
 export const postApi = {
   create: async (data: FormData | CreatePostData) => {
@@ -69,6 +109,19 @@ export const postApi = {
       data instanceof FormData
         ? { headers: { "Content-Type": "multipart/form-data" } }
         : {};
+
+    // If it's FormData and has mentionedUserIds, make sure it's properly formatted
+    if (data instanceof FormData) {
+      const mentionedUserIds = data.get("mentionedUserIds");
+      if (mentionedUserIds) {
+        // Parse the JSON string and append each ID separately
+        const userIds = JSON.parse(mentionedUserIds as string);
+        data.delete("mentionedUserIds"); // Remove the JSON string
+        userIds.forEach((id: number) => {
+          data.append("mentionedUserIds[]", id.toString());
+        });
+      }
+    }
 
     const response = await apiClient.post("/post", data, config);
     return response.data;
@@ -114,6 +167,22 @@ export const reactionApi = {
 
   getPostReactions: async (postId: number) => {
     const response = await apiClient.get(`/reaction/post/${postId}`);
+    return response.data;
+  },
+};
+
+// Creators API functions
+export const creatorsApi = {
+  getAll: async () => {
+    const response = await apiClient.get("/creators");
+    return response.data;
+  },
+};
+
+// Tip API functions
+export const tipApi = {
+  sendTip: async (data: CreateTipData): Promise<TipResponse> => {
+    const response = await apiClient.post("/user/give-tip", data);
     return response.data;
   },
 };

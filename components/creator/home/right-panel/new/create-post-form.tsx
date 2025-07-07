@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -32,6 +31,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import type { AxiosError } from "axios";
+import { MentionTextarea } from "./mention-textarea";
+import { MentionedCreators } from "./mentioned-creators";
+import type { Creator } from "@/lib/api";
 
 interface MediaFile {
   file: File;
@@ -48,6 +50,7 @@ export function CreatePostForm() {
   );
   const [price, setPrice] = useState<number>(0);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [mentionedUsers, setMentionedUsers] = useState<Creator[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate, isPending, isError, error } = useCreatePost();
@@ -100,13 +103,11 @@ export function CreatePostForm() {
     );
   };
 
-  const formatDuration = (duration: number) => {
-    const minutes = Math.floor(duration / 60);
-    const seconds = Math.floor(duration % 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  };
-
-  console.log("formatDuration(125):", formatDuration(125)); // Example usage
+  // const formatDuration = (duration: number) => {
+  //   const minutes = Math.floor(duration / 60);
+  //   const seconds = Math.floor(duration % 60);
+  //   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  // };
 
   const handlePost = async () => {
     if (!content.trim()) return;
@@ -117,6 +118,19 @@ export function CreatePostForm() {
 
     if (payType === "ppv" && price > 0) {
       formData.append("price", price.toString());
+    }
+
+    // Add mentioned user IDs - try different formats to ensure compatibility
+    if (mentionedUsers.length > 0) {
+      // Try multiple formats to ensure the backend receives the data correctly
+      mentionedUsers.forEach((user, index) => {
+        formData.append(`mentionedUserIds[${index}]`, user.id.toString());
+      });
+      // Also add as a JSON string as backup
+      formData.append(
+        "mentionedUserIds",
+        JSON.stringify(mentionedUsers.map((u) => u.id))
+      );
     }
 
     if (mediaFiles.length > 0) {
@@ -140,13 +154,21 @@ export function CreatePostForm() {
       formData.append("type", "text");
     }
 
+    // Debug: Log the FormData contents
+    console.log("FormData contents:");
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     mutate(formData, {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        console.log("Post created successfully:", response);
         setContent("");
         removeAllMedia();
         setPayType("free");
         setPrice(0);
         setShowPaymentOptions(false);
+        setMentionedUsers([]);
       },
       onError: (err) => {
         console.error("Post creation failed:", err);
@@ -198,9 +220,10 @@ export function CreatePostForm() {
                 U
               </AvatarFallback>
             </Avatar>
-            <Textarea
+            <MentionTextarea
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={setContent}
+              onMentionSelect={setMentionedUsers}
               placeholder="Create a post..."
               className="min-h-[100px] resize-none rounded-xl"
             />
@@ -302,6 +325,10 @@ export function CreatePostForm() {
                 </div>
               </div>
             </div>
+          )}
+
+          {mentionedUsers.length > 0 && (
+            <MentionedCreators creators={mentionedUsers} />
           )}
 
           {showPaymentOptions && (
@@ -418,6 +445,16 @@ export function CreatePostForm() {
                   {payType === "ppv" && price > 0 && (
                     <span className="ml-1">${price}</span>
                   )}
+                </Badge>
+              )}
+
+              {mentionedUsers.length > 0 && (
+                <Badge
+                  variant="outline"
+                  className="bg-purple-100 text-purple-800 border-purple-200 text-xs"
+                >
+                  {mentionedUsers.length}{" "}
+                  {mentionedUsers.length === 1 ? "mention" : "mentions"}
                 </Badge>
               )}
 
