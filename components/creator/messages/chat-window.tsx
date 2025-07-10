@@ -9,10 +9,11 @@ import { useEffect, useRef } from "react";
 import { MessageBubble } from "./message-bubble";
 import { MessageInput } from "./message-input";
 import type { User } from "@/types/message";
+import type { Creator } from "@/types/creator-profile/user";
 import { Button } from "@/components/ui/button";
 
 interface ChatWindowProps {
-  selectedUser: User | null;
+  selectedUser: User | Creator | null;
   currentUserId: number;
 }
 
@@ -42,8 +43,8 @@ export function ChatWindow({ selectedUser, currentUserId }: ChatWindowProps) {
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">Welcome to Messages</h3>
             <p className="text-sm max-w-sm">
-              Select a conversation from the sidebar to start messaging with
-              your contacts.
+              Select a conversation from the sidebar or start a new chat to
+              begin messaging.
             </p>
           </div>
         </div>
@@ -60,7 +61,11 @@ export function ChatWindow({ selectedUser, currentUserId }: ChatWindowProps) {
             <div className="relative">
               <Avatar className="h-10 w-10">
                 <AvatarImage
-                  src={`https://sp.konentvault.net.ng/${selectedUser.profilePicture}`}
+                  src={
+                    selectedUser.profilePicture
+                      ? `https://sp.konentvault.net.ng/${selectedUser.profilePicture}`
+                      : undefined
+                  }
                   alt={selectedUser.name}
                 />
                 <AvatarFallback>
@@ -70,12 +75,19 @@ export function ChatWindow({ selectedUser, currentUserId }: ChatWindowProps) {
                     .join("")}
                 </AvatarFallback>
               </Avatar>
-              <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-green-500 border-2 border-background rounded-full"></div>
+              {/* Show online status if user has isActive property (Creator type) */}
+              {"isActive" in selectedUser && selectedUser.isActive && (
+                <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-green-500 border-2 border-background rounded-full"></div>
+              )}
             </div>
             <div>
               <h3 className="font-semibold text-lg">{selectedUser.name}</h3>
               <p className="text-sm text-muted-foreground">
-                @{selectedUser.username} • Online
+                @{selectedUser.username}
+                {/* Show online status for Creator type */}
+                {"isActive" in selectedUser &&
+                  selectedUser.isActive &&
+                  " • Online"}
               </p>
             </div>
           </div>
@@ -104,7 +116,8 @@ export function ChatWindow({ selectedUser, currentUserId }: ChatWindowProps) {
                 />
               ))}
 
-              {messagesData?.messages?.length === 0 && (
+              {(!messagesData?.messages ||
+                messagesData.messages.length === 0) && (
                 <div className="text-center text-muted-foreground py-12">
                   <div className="space-y-3">
                     <div className="h-12 w-12 bg-muted rounded-full flex items-center justify-center mx-auto">

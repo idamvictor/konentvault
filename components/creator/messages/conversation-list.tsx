@@ -2,20 +2,23 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useConversations } from "@/hooks/use-messages";
 import { formatDistanceToNow } from "date-fns";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import type { Conversation } from "@/types/message";
 
 interface ConversationListProps {
   selectedUserId?: number;
   onSelectConversation: (userId: number) => void;
+  onNewChat: () => void;
 }
 
 export function ConversationList({
   selectedUserId,
+  onNewChat,
   onSelectConversation,
 }: ConversationListProps) {
   const { data: conversationsData, isLoading, error } = useConversations();
@@ -41,6 +44,15 @@ export function ConversationList({
   return (
     <ScrollArea className="h-full">
       <div className="space-y-1 p-4">
+        <Button
+          onClick={onNewChat}
+          variant="outline"
+          className="w-full justify-start h-12 mb-4 border-dashed hover:bg-primary/5 hover:border-primary/50 bg-transparent"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Start New Chat
+        </Button>
+
         {conversations.map((conversation: Conversation) => (
           <Card
             key={conversation.otherUser.id}
@@ -119,7 +131,9 @@ export function ConversationList({
           <div className="text-center text-muted-foreground py-12">
             <div className="space-y-2">
               <p className="text-lg font-medium">No conversations yet</p>
-              <p className="text-sm">Start a new conversation to get started</p>
+              <p className="text-sm">
+                Click &quot;Start New Chat&quot; to begin messaging
+              </p>{" "}
             </div>
           </div>
         )}

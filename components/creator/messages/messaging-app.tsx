@@ -5,19 +5,45 @@ import { useState } from "react";
 import { useUserStore } from "@/store/use-user-store";
 import { ConversationList } from "./conversation-list";
 import { ChatWindow } from "./chat-window";
+import { UserList } from "@/components/creator/messages/user-list";
+import type { Creator } from "@/types/creator-profile/user";
 
 export default function MessagingApp() {
   const [selectedUserId, setSelectedUserId] = useState<number>();
+  const [selectedUserFromList, setSelectedUserFromList] =
+    useState<Creator | null>(null);
+  const [showUserList, setShowUserList] = useState(false);
   const { data: conversationsData } = useConversations();
   const user = useUserStore((state) => state.user);
   const currentUserId = user?.id ?? 0;
 
-  const selectedUser = conversationsData?.conversations?.find(
-    (conv) => conv.otherUser.id === selectedUserId
-  )?.otherUser;
+  // Get selected user from either existing conversations or newly selected user
+  const selectedUser =
+    conversationsData?.conversations?.find(
+      (conv) => conv.otherUser.id === selectedUserId
+    )?.otherUser || selectedUserFromList;
+
+  const handleSelectUser = (creator: Creator) => {
+    setSelectedUserId(creator.id);
+    setSelectedUserFromList(creator);
+    setShowUserList(false);
+  };
+
+  const handleSelectConversation = (userId: number) => {
+    setSelectedUserId(userId);
+    setSelectedUserFromList(null); // Clear selected user from list when selecting from conversations
+  };
+
+  const handleNewChat = () => {
+    setShowUserList(true);
+  };
+
+  const handleCloseUserList = () => {
+    setShowUserList(false);
+  };
 
   return (
-    <div className="h-screen flex bg-background">
+    <div className="h-screen flex bg-background w-full">
       {/* Conversations Sidebar */}
       <div className="w-96 border-r bg-card/50">
         <div className="p-6 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -26,10 +52,18 @@ export default function MessagingApp() {
             Stay connected with your conversations
           </p>
         </div>
-        <ConversationList
-          selectedUserId={selectedUserId}
-          onSelectConversation={setSelectedUserId}
-        />
+        {showUserList ? (
+          <UserList
+            onSelectUser={handleSelectUser}
+            onClose={handleCloseUserList}
+          />
+        ) : (
+          <ConversationList
+            selectedUserId={selectedUserId}
+            onSelectConversation={handleSelectConversation}
+            onNewChat={handleNewChat}
+          />
+        )}
       </div>
 
       {/* Chat Window */}
