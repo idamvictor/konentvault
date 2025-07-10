@@ -15,17 +15,21 @@ import { useState, useMemo } from "react";
 
 export default function RightPanel() {
   const { data: creators = [], isLoading } = useGetCreators();
+  const creatorsArray = useMemo(
+    () => (Array.isArray(creators) ? creators : []),
+    [creators]
+  );
   const [currentPage, setCurrentPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 3;
 
   const filteredCreators = useMemo(() => {
-    return creators.filter(
+    return creatorsArray.filter(
       (creator) =>
         creator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         creator.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [creators, searchQuery]);
+  }, [creatorsArray, searchQuery]);
 
   const totalPages = Math.ceil(filteredCreators.length / itemsPerPage);
   const currentCreators = filteredCreators.slice(

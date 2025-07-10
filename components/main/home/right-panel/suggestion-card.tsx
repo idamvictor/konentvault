@@ -18,7 +18,7 @@ export function SuggestionCard({ creator }: SuggestionCardProps) {
   const imageBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   return (
-    <Link href={`/creator/${creator.username}`} className="block">
+    <Link href={`/creator/${creator.id}`} className="block">
       <Card className="relative overflow-hidden p-0 transition-transform hover:scale-[1.02]">
         <div className="h-24 relative">
           <Image
