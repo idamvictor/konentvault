@@ -16,7 +16,7 @@ import React from "react";
 
 export default function MessagessPage() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-full">
       <MessagingApp />
     </div>
   );
