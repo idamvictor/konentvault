@@ -4,7 +4,7 @@ import MessagingApp from "@/components/creator/messages/messaging-app";
 
 export default function MessagessPage() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-full">
       {/* <MessagesList />
       <ConversationArea /> */}
       <MessagingApp />
