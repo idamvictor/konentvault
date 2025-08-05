@@ -83,7 +83,7 @@ export function ConversationList({
                 </div>
 
                 <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
                     <h3 className="font-semibold truncate text-base">
                       {conversation.otherUser.name}
                     </h3>
