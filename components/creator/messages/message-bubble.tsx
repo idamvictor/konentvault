@@ -91,7 +91,7 @@ export function MessageBubble({
 
           <div className="relative">
             <div
-              className={`px-4 py-3 rounded-2xl cursor-pointer transition-colors ${
+              className={`px-4 py-3 rounded-2xl cursor-pointer transition-colors max-h-[300px] overflow-y-auto ${
                 isOwn
                   ? "bg-primary text-primary-foreground rounded-br-md"
                   : "bg-muted hover:bg-muted/80 rounded-bl-md"

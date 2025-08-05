@@ -100,7 +100,7 @@ export function ChatWindow({ selectedUser, currentUserId }: ChatWindowProps) {
 
       {/* Messages Area */}
       <CardContent className="flex-1 p-0 flex flex-col min-h-0">
-        <ScrollArea className="flex-1 px-6 py-4" ref={scrollAreaRef}>
+        <ScrollArea className="flex-1 px-6 py-4 h-[calc(100vh-13rem)]" ref={scrollAreaRef}>
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
               <Loader2 className="h-6 w-6 animate-spin" />
