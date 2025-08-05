@@ -57,12 +57,10 @@ export function MessageBubble({
 
   return (
     <div
-      className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-6 group`}
+      className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-6 group w-full`}
     >
       <div
-        className={`flex items-start space-x-3 max-w-[70%] ${
-          isOwn ? "flex-row-reverse space-x-reverse" : ""
-        }`}
+        className={`flex items-start space-x-3 max-w-[70%] ${isOwn ? "flex-row-reverse space-x-reverse" : ""}`}
       >
         {/* Avatar - only show for received messages */}
         {!isOwn && (
