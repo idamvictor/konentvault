@@ -53,10 +53,13 @@ const PersonalRoom = () => {
       });
     }
 
-    router.push(`/meeting/${meetingId}?personal=true`);
+    router.push(`streaming/meeting/${meetingId}?personal=true`);
   };
 
-  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meetingId}?personal=true`;
+  const meetingLink =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/streaming/meeting/${meetingId}?personal=true`
+      : `${process.env.NEXT_PUBLIC_BASE_URL}/streaming/meeting/${meetingId}?personal=true`;
 
   return (
     <section className="flex size-full flex-col gap-10 text-white">
