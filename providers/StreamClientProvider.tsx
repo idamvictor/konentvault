@@ -3,7 +3,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { StreamVideoClient, StreamVideo } from "@stream-io/video-react-sdk";
 // import { useUser } from "@clerk/nextjs";
-import { useUser } from "@/store/useUser";
+// import { useUser } from "@/store/useUser";
+import { useUserStore } from "@/store/use-user-store";
 
 import { tokenProvider } from "@/actions/stream.actions";
 import Loader from "@/components/streaming/Loader";
@@ -16,7 +17,8 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
   // const { user, isLoaded } = useUser();
 
   // Zustand store
-  const { user } = useUser();
+  // const { user } = useUser();
+  const { user } = useUserStore();
 
   useEffect(() => {
     // Clerk auth check
@@ -26,7 +28,10 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     if (!user) return;
     if (!API_KEY) throw new Error("Stream API key is missing");
 
-    const client = new StreamVideoClient({
+    const userId = user.id.toString();
+
+    // Get or create the client instance
+    const client = StreamVideoClient.getOrCreateInstance({
       apiKey: API_KEY,
       user: {
         // Clerk auth user
@@ -35,11 +40,11 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
         // image: user?.imageUrl,
 
         // Zustand store user
-        id: user.id,
+        id: userId,
         name: user.name,
-        image: user.image,
+        image: user.profilePicture || "",
       },
-      tokenProvider,
+      tokenProvider: () => tokenProvider(userId),
     });
 
     setVideoClient(client);

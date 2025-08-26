@@ -5,7 +5,8 @@ import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 
 import { useGetCallById } from "@/hooks/streaming/useGetCallById";
-import { useUser } from "@/store/useUser";
+// import { useUser } from "@/store/useUser";
+import { useUserStore } from "@/store/use-user-store";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -31,10 +32,11 @@ const Table = ({
 const PersonalRoom = () => {
   const router = useRouter();
   // const { user } = useUser();
-  const { user } = useUser();
+  // const { user } = useUser();
+  const { user } = useUserStore();
   const client = useStreamVideoClient();
 
-  const meetingId = user?.id;
+  const meetingId = user?.id.toString();
 
   const { call } = useGetCallById(meetingId!);
 

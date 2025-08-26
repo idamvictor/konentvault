@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 // import { useUser } from "@clerk/nextjs";
 import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
-import { useUser } from "@/store/useUser";
+// import { useUser } from "@/store/useUser";
+import { useUserStore } from "@/store/use-user-store";
 
 export const useGetCalls = () => {
   // const { user } = useUser();
-  const { user } = useUser();
+  // const { user } = useUser();
+  const { user } = useUserStore();
   const client = useStreamVideoClient();
   const [calls, setCalls] = useState<Call[]>();
   const [isLoading, setIsLoading] = useState(false);
@@ -23,8 +25,8 @@ export const useGetCalls = () => {
           filter_conditions: {
             starts_at: { $exists: true },
             $or: [
-              { created_by_user_id: user.id },
-              { members: { $in: [user.id] } },
+              { created_by_user_id: user.id.toString() },
+              { members: { $in: [user.id.toString()] } },
             ],
           },
         });
@@ -46,9 +48,11 @@ export const useGetCalls = () => {
     return (startsAt && new Date(startsAt) < now) || !!endedAt;
   });
 
-  const upcomingCalls = calls?.filter(({ state: { startsAt } }: Call) => {
-    return startsAt && new Date(startsAt) > now;
-  });
+  const upcomingCalls = calls?.filter(
+    ({ state: { startsAt, endedAt } }: Call) => {
+      return startsAt && new Date(startsAt) > now && !endedAt;
+    }
+  );
 
   return { endedCalls, upcomingCalls, callRecordings: calls, isLoading };
 };
