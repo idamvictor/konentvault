@@ -14,22 +14,19 @@ import { useGetCreators } from "@/services/creator/get-creators";
 import { useState, useMemo } from "react";
 
 export default function RightPanel() {
-  const { data: creators = [], isLoading } = useGetCreators();
-  const creatorsArray = useMemo(
-    () => (Array.isArray(creators) ? creators : []),
-    [creators]
-  );
+  const { data, isLoading } = useGetCreators();
   const [currentPage, setCurrentPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 3;
 
   const filteredCreators = useMemo(() => {
-    return creatorsArray.filter(
+    const creators = data?.creators || [];
+    return creators.filter(
       (creator) =>
         creator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         creator.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [creatorsArray, searchQuery]);
+  }, [data?.creators, searchQuery]);
 
   const totalPages = Math.ceil(filteredCreators.length / itemsPerPage);
   const currentCreators = filteredCreators.slice(

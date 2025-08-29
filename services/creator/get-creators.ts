@@ -1,12 +1,12 @@
 import axiosInstance from "@/lib/axios";
-import { Creators } from "@/types/creators";
+import { CreatorApiResponse } from "@/types/creator-response";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-const getCreators = async (): Promise<Creators> => {
+const getCreators = async (): Promise<CreatorApiResponse> => {
   try {
     const res = await axiosInstance.get("/creators");
-    return res.data?.creators || [];
+    return res.data;
   } catch (error) {
     const newError =
       error instanceof AxiosError
@@ -17,7 +17,7 @@ const getCreators = async (): Promise<Creators> => {
 };
 
 export const useGetCreators = () => {
-  return useQuery<Creators>({
+  return useQuery<CreatorApiResponse>({
     queryKey: ["creators"],
     queryFn: getCreators,
   });

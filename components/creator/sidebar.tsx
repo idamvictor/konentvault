@@ -12,6 +12,7 @@ import {
   // HelpCircle,
   UserRoundPlus,
   LogOut,
+  Video,
 } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,6 +39,7 @@ const mainNavigation = [
 
 const quickAccess = [
   { icon: User, label: "My Profile", href: "/creator/profile", badge: null },
+  { icon: Video, label: "Streaming", href: "/streaming", badge: null },
   // {
   //   icon: Bookmark,
   //   label: "Bookmarks",
