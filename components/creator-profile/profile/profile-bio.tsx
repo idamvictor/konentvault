@@ -6,8 +6,8 @@ import { useGetCreators } from "@/services/creator/get-creators";
 export function ProfileBio() {
   const params = useParams();
   const username = params.username as string;
-  const { data: creators = [], isLoading } = useGetCreators();
-  const creator = creators.find((c) => c.username === username);
+  const { data, isLoading } = useGetCreators();
+  const creator = data?.creators.find((c) => c.username === username);
 
   if (isLoading) {
     return (
