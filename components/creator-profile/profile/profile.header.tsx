@@ -12,8 +12,8 @@ export function ProfileHeader() {
   const router = useRouter();
   const params = useParams();
   const username = params.username as string;
-  const { data: creators = [], isLoading } = useGetCreators();
-  const creator = creators.find((c) => c.username === username);
+  const { data, isLoading } = useGetCreators();
+  const creator = data?.creators.find((c) => c.username === username);
   const imageBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   const defaultCoverImage =
     "https://res.cloudinary.com/dyp8gtllq/image/upload/v1739222053/Mothers_20and_20their_20children_20_20at_20ANC_20clinic_20in_20Homa_20Bay_i25atg.jpg";
