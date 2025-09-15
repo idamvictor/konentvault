@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import MeetingTypeList from "@/components/streaming/MeetingTypeList";
+import { CallBookingInterface } from "@/components/streaming/call-booking-interface";
 
 const Home = () => {
+  const [bookingCompleted, setBookingCompleted] = useState(false);
   const now = new Date();
 
   const time = now.toLocaleTimeString("en-US", {
@@ -10,6 +15,16 @@ const Home = () => {
   const date = new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(
     now
   );
+
+  if (!bookingCompleted) {
+    return (
+      <div className="w-full py-6">
+        <CallBookingInterface
+          onBookingComplete={() => setBookingCompleted(true)}
+        />
+      </div>
+    );
+  }
 
   return (
     <section className="flex size-full flex-col gap-5 text-white">
