@@ -5,10 +5,12 @@ interface StreamControlsState {
   showCallStats: boolean;
   showScreenShare: boolean;
   showEndCallForAll: boolean;
+  showChat: boolean;
   toggleRecord: () => void;
   toggleCallStats: () => void;
   toggleScreenShare: () => void;
   toggleEndCallForAll: () => void;
+  toggleChat: () => void;
 }
 
 export const useStreamControls = create<StreamControlsState>((set) => ({
@@ -16,6 +18,7 @@ export const useStreamControls = create<StreamControlsState>((set) => ({
   showCallStats: true,
   showScreenShare: true,
   showEndCallForAll: true,
+  showChat: false,
   toggleRecord: () => set((state) => ({ showRecord: !state.showRecord })),
   toggleCallStats: () =>
     set((state) => ({ showCallStats: !state.showCallStats })),
@@ -23,4 +26,5 @@ export const useStreamControls = create<StreamControlsState>((set) => ({
     set((state) => ({ showScreenShare: !state.showScreenShare })),
   toggleEndCallForAll: () =>
     set((state) => ({ showEndCallForAll: !state.showEndCallForAll })),
+  toggleChat: () => set((state) => ({ showChat: !state.showChat })),
 }));

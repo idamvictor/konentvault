@@ -44,16 +44,18 @@ export const StreamChatComponent = () => {
   if (!channel) return <div>Loading chat...</div>;
 
   return (
-    <Chat client={chatClient} theme="str-chat__theme-dark">
-      <Channel channel={channel}>
-        <Window>
-          <ChannelHeader />
-          <MessageList />
-          <MessageInput />
-        </Window>
-        <Thread />
-      </Channel>
-    </Chat>
+    <div className="h-full">
+      <Chat client={chatClient} theme="str-chat__theme-dark">
+        <Channel channel={channel}>
+          <Window>
+            <ChannelHeader />
+            <MessageList />
+            <MessageInput />
+          </Window>
+          <Thread />
+        </Channel>
+      </Chat>
+    </div>
   );
 };
 

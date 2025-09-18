@@ -18,7 +18,8 @@ import {
 import { useStreamControls } from "@/store/streamControlsStore";
 import { StreamControlsPanel } from "./StreamControlsPanel";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Users, LayoutList } from "lucide-react";
+import { Users, LayoutList, MessageCircle } from "lucide-react";
+import { StreamChatComponent } from "./StreamChatComponent";
 
 import {
   DropdownMenu,
@@ -40,8 +41,14 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
-  const { showRecord, showCallStats, showScreenShare, showEndCallForAll } =
-    useStreamControls();
+  const {
+    showRecord,
+    showCallStats,
+    showScreenShare,
+    showEndCallForAll,
+    showChat,
+    toggleChat,
+  } = useStreamControls();
 
   // for more detail about types of CallingState see: https://getstream.io/video/docs/react/ui-cookbook/ringing-call/#incoming-call-panel
   const callingState = useCallCallingState();
@@ -62,9 +69,18 @@ const MeetingRoom = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
       <div className="relative flex size-full items-center justify-center">
-        <div className=" flex size-full max-w-[1000px] items-center">
+        <div
+          className={cn("flex size-full max-w-[1000px] items-center", {
+            "max-w-[800px]": showChat,
+          })}
+        >
           <CallLayout />
         </div>
+        {showChat && (
+          <div className="w-[300px] h-[calc(100vh-86px)] ml-2 bg-[#1a1a1a] border-l border-[#2a2a2a]">
+            <StreamChatComponent />
+          </div>
+        )}
         <div
           className={cn("h-[calc(100vh-86px)] hidden ml-2", {
             "show-block": showParticipants,
@@ -75,7 +91,7 @@ const MeetingRoom = () => {
       </div>
       {/* video layout and call controls */}
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
-        Original CallControls implementation:
+        {/* Original CallControls implementation: */}
         {/* <CallControls 
           onLeave={() => router.push(`/streaming`)}
         /> */}
@@ -85,6 +101,12 @@ const MeetingRoom = () => {
           {showScreenShare && <ScreenShareButton />}
           {showRecord && <RecordCallButton />}
           <CancelCallButton onLeave={() => router.push(`/streaming`)} />
+          <button
+            onClick={toggleChat}
+            className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]"
+          >
+            <MessageCircle size={20} className="text-white" />
+          </button>
         </div>
         <DropdownMenu>
           <div className="flex items-center">
