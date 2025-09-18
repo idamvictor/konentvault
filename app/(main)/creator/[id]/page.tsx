@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  MessageCircle,
+  // MessageCircle,
   Calendar,
   MapPin,
   Verified,
@@ -55,9 +55,9 @@ export default function CreatorDetailPage() {
     subscribeMutation.mutate({ creatorId, subscriptionPlanId: planId });
   };
 
-  const handleChatClick = () => {
-    console.log("Chat button clicked for creator:", creator?.name);
-  };
+  // const handleChatClick = () => {
+  //   console.log("Chat button clicked for creator:", creator?.name);
+  // };
 
   if (!creator) {
     return (
@@ -173,13 +173,13 @@ export default function CreatorDetailPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <Button
+                    {/* <Button
                       onClick={handleChatClick}
                       className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                     >
                       <MessageCircle className="h-4 w-4 mr-2" />
                       Chat
-                    </Button>
+                    </Button> */}
 
                     {plansData?.plans && plansData.plans.length > 0 && (
                       <div className="space-y-2">
@@ -265,7 +265,7 @@ export default function CreatorDetailPage() {
                   <div className="space-y-6">
                     {freePosts.length > 0 && (
                       <div>
-                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <h3 className="text-lg font-semibold my-4 flex items-center gap-2">
                           <Heart className="h-5 w-5 text-green-500" />
                           Free Posts
                         </h3>
