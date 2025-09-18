@@ -1,14 +1,22 @@
 "use client";
+
 import { useState } from "react";
 import {
-  CallControls,
   CallParticipantsList,
   CallStatsButton,
   CallingState,
   PaginatedGridLayout,
   SpeakerLayout,
   useCallStateHooks,
+  ToggleAudioPublishingButton,
+  ToggleVideoPublishingButton,
+  ScreenShareButton,
+  CancelCallButton,
+  RecordCallButton,
+  // CallControls,
 } from "@stream-io/video-react-sdk";
+import { useStreamControls } from "@/store/streamControlsStore";
+import { StreamControlsPanel } from "./StreamControlsPanel";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Users, LayoutList } from "lucide-react";
 
@@ -32,6 +40,8 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
+  const { showRecord, showCallStats, showScreenShare, showEndCallForAll } =
+    useStreamControls();
 
   // for more detail about types of CallingState see: https://getstream.io/video/docs/react/ui-cookbook/ringing-call/#incoming-call-panel
   const callingState = useCallCallingState();
@@ -65,8 +75,17 @@ const MeetingRoom = () => {
       </div>
       {/* video layout and call controls */}
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
-        <CallControls onLeave={() => router.push(`/streaming`)} />
-
+        Original CallControls implementation:
+        {/* <CallControls 
+          onLeave={() => router.push(`/streaming`)}
+        /> */}
+        <div className="flex items-center gap-2">
+          <ToggleAudioPublishingButton />
+          <ToggleVideoPublishingButton />
+          {showScreenShare && <ScreenShareButton />}
+          {showRecord && <RecordCallButton />}
+          <CancelCallButton onLeave={() => router.push(`/streaming`)} />
+        </div>
         <DropdownMenu>
           <div className="flex items-center">
             <DropdownMenuTrigger className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
@@ -88,13 +107,18 @@ const MeetingRoom = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        <CallStatsButton />
+        {showCallStats && <CallStatsButton />}
         <button onClick={() => setShowParticipants((prev) => !prev)}>
-          <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
+          <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
             <Users size={20} className="text-white" />
           </div>
         </button>
-        {!isPersonalRoom && <EndCallButton />}
+        {!isPersonalRoom && showEndCallForAll && <EndCallButton />}
+      </div>
+
+      {/* Add the controls panel */}
+      <div className="fixed top-4 right-4">
+        <StreamControlsPanel />
       </div>
     </section>
   );
