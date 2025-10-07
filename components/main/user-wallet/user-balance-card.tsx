@@ -1,11 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Wallet } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Wallet } from "lucide-react";
+import { useUserStore } from "@/store/use-user-store";
 
-interface UserBalanceCardProps {
-  balance: number
-}
+export function UserBalanceCard() {
+  const user = useUserStore((state) => state.user);
 
-export function UserBalanceCard({ balance }: UserBalanceCardProps) {
   return (
     <Card>
       <CardHeader>
@@ -19,11 +18,15 @@ export function UserBalanceCard({ balance }: UserBalanceCardProps) {
           <div>
             <p className="text-sm text-muted-foreground">Available Balance</p>
             <p className="text-4xl font-bold tracking-tight">
-              ${balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              #
+              {user?.balance.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) ?? "0.00"}
             </p>
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
