@@ -19,7 +19,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { ArrowUpRightIcon, Folder } from "lucide-react";
-import type { Earning } from "@/lib/wallet-data";
+import type { Earning } from "@/endpoint/creator/creator-types";
 import Link from "next/link";
 
 type EarningsTableProps = {
@@ -29,11 +29,8 @@ type EarningsTableProps = {
 const typeColors = {
   subscription:
     "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400",
-  "one-time":
-    "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+  media: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
   tip: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-  commission:
-    "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
 };
 
 export function EarningsTable({ earnings }: EarningsTableProps) {
@@ -73,30 +70,38 @@ export function EarningsTable({ earnings }: EarningsTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Source</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Amount</TableHead>
+            <TableHead>Net Amount</TableHead>
+            <TableHead>Commission</TableHead>
+            <TableHead className="hidden md:table-cell">Status</TableHead>
             <TableHead>Date</TableHead>
-            <TableHead className="hidden md:table-cell">Description</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {earnings.map((earning) => (
             <TableRow key={earning.id}>
-              <TableCell className="font-medium">{earning.source}</TableCell>
               <TableCell>
                 <Badge variant="secondary" className={typeColors[earning.type]}>
                   {earning.type}
                 </Badge>
               </TableCell>
               <TableCell className="font-semibold text-green-600 dark:text-green-400">
-                +${earning.amount.toFixed(2)}
+                +${earning.amount}
+              </TableCell>
+              <TableCell className="font-medium">
+                ${earning.netAmount}
               </TableCell>
               <TableCell className="text-muted-foreground">
-                {new Date(earning.date).toLocaleDateString()}
+                {earning.systemCommission}%
               </TableCell>
-              <TableCell className="hidden md:table-cell text-muted-foreground">
-                {earning.description || "—"}
+              <TableCell className="hidden md:table-cell">
+                <Badge variant={earning.isPaid ? "default" : "secondary"}>
+                  {earning.status}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-muted-foreground">
+                {new Date(earning.createdAt).toLocaleDateString()}
               </TableCell>
             </TableRow>
           ))}
