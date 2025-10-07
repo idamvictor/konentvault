@@ -1,11 +1,19 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, TrendingUp } from "lucide-react"
-import { WALLET_BALANCE } from "@/lib/wallet-data"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { DollarSign } from "lucide-react";
+import { useUserStore } from "@/store/use-user-store";
 
 export function BalanceCard() {
-  const { available, pending, currency } = WALLET_BALANCE
+  const user = useUserStore((state) => state.user);
+
+  const balance = Number(user?.balance ?? 0);
 
   return (
     <Card>
@@ -14,15 +22,11 @@ export function BalanceCard() {
         <DollarSign className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold">${available.toFixed(2)}</div>
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t">
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          <div className="text-sm text-muted-foreground">
-            Pending: <span className="font-medium text-foreground">${pending.toFixed(2)}</span>
-          </div>
-        </div>
-        <CardDescription className="mt-2">Available for withdrawal</CardDescription>
+        <div className="text-3xl font-bold">${balance.toFixed(2)}</div>
+        <CardDescription className="mt-2">
+          Available for withdrawal
+        </CardDescription>
       </CardContent>
     </Card>
-  )
+  );
 }
