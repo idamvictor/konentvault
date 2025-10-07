@@ -3,6 +3,8 @@ import { StreamChat } from "stream-chat";
 // Stream credentials from environment variables
 const STREAM_API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY!;
 
+import { ChannelData } from "stream-chat";
+
 // Default channel configuration
 export const DEFAULT_CHANNEL_CONFIG = {
   type: "livestream",
@@ -10,7 +12,7 @@ export const DEFAULT_CHANNEL_CONFIG = {
     name: "Live Stream Chat",
     image:
       "https://getstream.io/random_svg/?id=cool-math-class&name=Live+Stream+Chat",
-  },
+  } as ChannelData,
 };
 
 // Create a Stream Chat client
@@ -63,7 +65,7 @@ export const initializeChannel = async (callId: string) => {
       {
         ...DEFAULT_CHANNEL_CONFIG.data,
         name: `Call Chat ${callId}`,
-      }
+      } as ChannelData
     );
     await channel.watch();
     return channel;
