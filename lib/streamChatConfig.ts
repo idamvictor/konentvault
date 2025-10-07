@@ -16,16 +16,37 @@ export const DEFAULT_CHANNEL_CONFIG = {
 // Create a Stream Chat client
 export const chatClient = StreamChat.getInstance(STREAM_API_KEY);
 
-// Initialize user
-export const initializeUser = async () => {
+// Initialize user with video call identity
+export const initializeUser = async (
+  userId: string,
+  userName: string,
+  userImage?: string
+) => {
   try {
-    // Fetch token from our API route
-    const response = await fetch("/api/stream-token");
-    const { token, user } = await response.json();
+    // Fetch token from our API route with userId
+    const response = await fetch(
+      `/api/stream-token?userId=${encodeURIComponent(userId)}`
+    );
+    const data = await response.json();
 
-    if (!token) throw new Error("Failed to get token");
+    if (response.status !== 200) {
+      throw new Error(data.error || "Failed to get token");
+    }
 
-    await chatClient.connectUser(user, token);
+    if (!data.token) {
+      throw new Error("Token not received from server");
+    }
+
+    const token = data.token;
+
+    await chatClient.connectUser(
+      {
+        id: userId,
+        name: userName,
+        image: userImage || "",
+      },
+      token
+    );
     return true;
   } catch (error) {
     console.error("Failed to connect user:", error);
@@ -33,13 +54,16 @@ export const initializeUser = async () => {
   }
 };
 
-// Create or join a channel
-export const initializeChannel = async () => {
+// Create or join a channel for a specific call
+export const initializeChannel = async (callId: string) => {
   try {
     const channel = chatClient.channel(
       DEFAULT_CHANNEL_CONFIG.type,
-      "live-stream-channel",
-      DEFAULT_CHANNEL_CONFIG.data
+      `call-${callId}`,
+      {
+        ...DEFAULT_CHANNEL_CONFIG.data,
+        name: `Call Chat ${callId}`,
+      }
     );
     await channel.watch();
     return channel;

@@ -13,6 +13,7 @@ import {
   ScreenShareButton,
   CancelCallButton,
   RecordCallButton,
+  useCall,
   // CallControls,
 } from "@stream-io/video-react-sdk";
 import { useStreamControls } from "@/store/streamControlsStore";
@@ -20,6 +21,7 @@ import { StreamControlsPanel } from "./StreamControlsPanel";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Users, LayoutList, MessageCircle } from "lucide-react";
 import { StreamChatComponent } from "./StreamChatComponent";
+// import { StreamChatComponent } from "./StreamChatComponent";
 
 import {
   DropdownMenu,
@@ -40,7 +42,7 @@ const MeetingRoom = () => {
   const router = useRouter();
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
-  const { useCallCallingState } = useCallStateHooks();
+  const { useCallCallingState, useLocalParticipant } = useCallStateHooks();
   const {
     showRecord,
     showCallStats,
@@ -49,6 +51,13 @@ const MeetingRoom = () => {
     showChat,
     toggleChat,
   } = useStreamControls();
+
+  const call = useCall();
+  const localParticipant = useLocalParticipant();
+
+  if (!call) {
+    throw new Error("MeetingRoom must be used within a StreamCall component");
+  }
 
   // for more detail about types of CallingState see: https://getstream.io/video/docs/react/ui-cookbook/ringing-call/#incoming-call-panel
   const callingState = useCallCallingState();
@@ -78,7 +87,12 @@ const MeetingRoom = () => {
         </div>
         {showChat && (
           <div className="w-[300px] h-[calc(100vh-86px)] ml-2 bg-[#1a1a1a] border-l border-[#2a2a2a]">
-            <StreamChatComponent />
+            <StreamChatComponent
+              callId={call.id}
+              userId={localParticipant?.userId || ""}
+              userName={localParticipant?.name || ""}
+              userImage={localParticipant?.image || undefined}
+            />
           </div>
         )}
         <div

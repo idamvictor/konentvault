@@ -19,14 +19,26 @@ import {
 import "stream-chat-react/dist/css/v2/index.css";
 import "@/app/streaming/chat.css";
 
-export const StreamChatComponent = () => {
+interface StreamChatComponentProps {
+  callId: string;
+  userId: string;
+  userName: string;
+  userImage?: string;
+}
+
+export const StreamChatComponent = ({
+  callId,
+  userId,
+  userName,
+  userImage,
+}: StreamChatComponentProps) => {
   const [channel, setChannel] = useState<ChannelType | null>(null);
 
   useEffect(() => {
     const setupChat = async () => {
-      const userConnected = await initializeUser();
+      const userConnected = await initializeUser(userId, userName, userImage);
       if (userConnected) {
-        const newChannel = await initializeChannel();
+        const newChannel = await initializeChannel(callId);
         if (newChannel) {
           setChannel(newChannel);
         }
@@ -39,7 +51,7 @@ export const StreamChatComponent = () => {
     return () => {
       chatClient.disconnectUser();
     };
-  }, []);
+  }, [callId, userId, userName, userImage]);
 
   if (!channel) return <div>Loading chat...</div>;
 
