@@ -49,6 +49,8 @@ const quickAccess = [
   { icon: Users, label: "Referrals", href: "/creator/referrals", badge: null },
 ];
 
+import { Wallet } from "lucide-react";
+
 const finance = [
   {
     icon: LayoutDashboard,
@@ -60,6 +62,12 @@ const finance = [
     icon: UserRoundPlus,
     label: "Subscribers",
     href: "/creator/subscribers",
+    badge: null,
+  },
+  {
+    icon: Wallet,
+    label: "Wallet",
+    href: "/creator/wallet",
     badge: null,
   },
 ];

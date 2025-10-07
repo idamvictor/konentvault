@@ -9,6 +9,7 @@ import {
   MoreHorizontal,
   Users,
   Video,
+  Wallet,
 } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -34,6 +35,7 @@ const navigationItems = [
   { icon: Bookmark, label: "Collections", href: "/collections", badge: null },
   { icon: Users, label: "Subscriptions", href: "/subscriptions", badge: null },
   { icon: Video, label: "Streaming", href: "/streaming", badge: null },
+  { icon: Wallet, label: "Wallet", href: "/wallet", badge: null },
   { icon: User, label: "My profile", href: "/profile", badge: null },
 ];
 
