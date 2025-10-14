@@ -21,7 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useUpdatePost } from "@/hooks/use-posts";
-import type { Post, UpdatePostData } from "@/lib/api";
+import type { UpdatePostData } from "@/types/update-post";
+import type { Post } from "@/types/post-feed";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 

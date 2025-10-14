@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -8,7 +7,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { type Post, getImageUrl } from "@/lib/api";
+import { type Post, type Media, type Reaction } from "@/types/post-feed";
+import { getImageUrl } from "@/lib/api";
 import {
   useCreateReaction,
   usePostReactions,
@@ -50,7 +50,7 @@ import { TipDialog } from "./tip-dialog";
 interface PostCardProps {
   post: Post;
   showActions?: boolean;
-  currentUserId?: number;
+  currentUserId: number;
 }
 
 interface MockCreatorCardProps {
@@ -137,15 +137,19 @@ export function PostCard({
   const { data: reactionsData } = usePostReactions(post.id);
 
   const reactions = reactionsData?.reactions || [];
-  const likesCount = reactions.filter((r: any) => r.type === "like").length;
-  const commentsCount = reactions.filter(
-    (r: any) => r.type === "comment"
+  const likesCount = reactions.filter(
+    (r: Reaction) => r.type === "like"
   ).length;
-  const sharesCount = reactions.filter((r: any) => r.type === "share").length;
+  const commentsCount = reactions.filter(
+    (r: Reaction) => r.type === "comment"
+  ).length;
+  const sharesCount = reactions.filter(
+    (r: Reaction) => r.type === "share"
+  ).length;
 
   // Check if current user has liked this post
   const userLike = reactions.find(
-    (r: any) => r.type === "like" && r.userId === currentUserId
+    (r: Reaction) => r.type === "like" && r.userId === currentUserId
   );
   const isLiked = !!userLike;
 
@@ -228,7 +232,7 @@ export function PostCard({
     return videoExtensions.some((ext) => mediaPath.toLowerCase().includes(ext));
   };
 
-  const renderMediaItem = (media: any, index: number, isDialog = false) => {
+  const renderMediaItem = (media: Media, index: number, isDialog = false) => {
     const mediaUrl = getImageUrl(media.mediaPath);
     const isVideo = isVideoFile(media.mediaPath);
 
@@ -324,12 +328,16 @@ export function PostCard({
                   alt={post.user.name}
                 />
                 <AvatarFallback className="bg-blue-100 text-blue-600">
-                  {post.user.name.charAt(0).toUpperCase()}
+                  {(post.user.name || post.user.username || "U")
+                    .charAt(0)
+                    .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-semibold text-sm">{post.user.name}</h3>
+                  <h3 className="font-semibold text-sm">
+                    {post.user.name || post.user.username}
+                  </h3>
                   <Badge
                     variant="outline"
                     className={`${getPayTypeColor(
@@ -706,7 +714,7 @@ export function PostCard({
 
               <TipDialog
                 creatorId={post.user.id}
-                creatorName={post.user.name}
+                creatorName={post.user.name || post.user.username}
                 creatorUsername={post.user.username}
                 creatorProfilePicture={post.user.profilePicture}
               >
@@ -735,7 +743,10 @@ export function PostCard({
       </Card>
 
       <EditPostDialog
-        post={post}
+        post={{
+          ...post,
+          type: post.type as "video" | "image" | "text" | "mixed",
+        }}
         open={showEditDialog}
         onOpenChange={setShowEditDialog}
       />

@@ -4,13 +4,34 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { type Creator, getImageUrl } from "@/lib/api";
+import { type User } from "@/types/post-feed";
+import { type Creator } from "@/types/creator";
+import { getImageUrl } from "@/lib/api";
 import { CheckCircle, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface MentionedCreatorsProps {
-  creators: Creator[];
+  creators: (User | Creator)[];
   maxDisplay?: number;
+}
+
+function convertToCreator(user: User | Creator): Creator {
+  if ("displayName" in user) {
+    // It's already a Creator
+    return user as Creator;
+  }
+  // Convert User to Creator
+  return {
+    ...user,
+    displayName: user.name || user.username,
+    name: user.name || user.username,
+    email: "",
+    userType: "user",
+    coverImage: null,
+    isCreator: false,
+    isActive: true,
+    isVerified: false,
+  };
 }
 
 export function MentionedCreators({
@@ -19,8 +40,10 @@ export function MentionedCreators({
 }: MentionedCreatorsProps) {
   if (!creators || creators.length === 0) return null;
 
-  const displayCreators = creators.slice(0, maxDisplay);
-  const remainingCount = creators.length - maxDisplay;
+  const convertedCreators = creators.map(convertToCreator);
+
+  const displayCreators = convertedCreators.slice(0, maxDisplay);
+  const remainingCount = convertedCreators.length - maxDisplay;
 
   return (
     <div className="space-y-3">
@@ -101,7 +124,7 @@ function CreatorCard({
         {creator.coverImage ? (
           <Image
             src={getImageUrl(creator.coverImage) || "/placeholder.svg"}
-            alt={creator.name}
+            alt={creator.name || creator.username || "User Avatar"}
             className="w-full h-full object-cover"
             fill
             sizes="100vw"
@@ -139,10 +162,12 @@ function CreatorCard({
                     ? getImageUrl(creator.profilePicture)
                     : undefined
                 }
-                alt={creator.name}
+                alt={creator.name || creator.username || "User Avatar"}
               />
               <AvatarFallback className="bg-blue-500 text-white text-xs">
-                {creator.name.charAt(0).toUpperCase()}
+                {(creator.name || creator.username || "U")
+                  .charAt(0)
+                  .toUpperCase()}
               </AvatarFallback>
             </Avatar>
             {creator.isActive && (
@@ -152,7 +177,7 @@ function CreatorCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
               <h4 className="font-semibold text-white text-xs truncate">
-                {creator.name}
+                {creator.name || creator.username}
               </h4>
               {creator.isVerified && (
                 <CheckCircle className="w-3 h-3 text-blue-400 fill-current flex-shrink-0" />

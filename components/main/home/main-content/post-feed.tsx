@@ -1,13 +1,13 @@
 "use client";
 
-import { usePosts } from "@/hooks/use-posts";
+import { useGetFeeds } from "@/services/post/get-feeds";
 import { PostCard } from "./post-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, FileText } from "lucide-react";
-import { Post } from "@/lib/api";
+import { Post } from "@/types/post-feed";
 
 export function PostsFeed() {
-  const { data, isLoading, error } = usePosts();
+  const { data, isLoading, error } = useGetFeeds();
 
   if (isLoading) {
     return (
@@ -30,7 +30,7 @@ export function PostsFeed() {
     );
   }
 
-  const posts = data?.posts || [];
+  const posts = data || [];
 
   if (posts.length === 0) {
     return (

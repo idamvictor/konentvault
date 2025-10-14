@@ -1,17 +1,23 @@
+import { type Creator } from "./creator";
+
 export interface User {
   id: number;
   username: string;
   profilePicture: string | null;
+  name?: string; // Making it required since PostCard needs it
 }
 
 export interface Media {
-  // Define media properties if available, otherwise leave as unknown
+  mediaPath: string;
   [key: string]: unknown;
 }
 
 export interface Reaction {
-  // If you have a structure for reactions, define it here. Otherwise, leave as an empty array.
-  [key: string]: unknown;
+  id: number;
+  userId: number;
+  type: "like" | "comment" | "share";
+  postId: number;
+  content: string;
 }
 
 export interface Post {
@@ -20,15 +26,16 @@ export interface Post {
   userId: number;
   price: string;
   isPaid: boolean;
-  payType: string;
+  payType: "free" | "ppv" | "subscription";
   published: boolean;
   views: number;
-  type: string;
+  type: "video" | "image" | "text" | "mixed";
   createdAt: string;
   updatedAt: string;
   user: User;
   media: Media[];
   reactions: Reaction[];
+  mentionedUsers?: (User | Creator)[];
 }
 
 export type PostFeedsResponse = Post[];
