@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 import { useCreators } from "@/hooks/use-creators-1";
 import { useCreatorPosts } from "@/hooks/use-creator-posts";
 import { useCreatorMedia } from "@/hooks/use-creator-media";
@@ -52,7 +54,35 @@ export default function CreatorDetailPage() {
   };
 
   const handleSubscribe = (planId: number) => {
-    subscribeMutation.mutate({ creatorId, subscriptionPlanId: planId });
+    subscribeMutation.mutate(
+      { creatorId, subscriptionPlanId: planId },
+      {
+        onSuccess: (response) => {
+          toast.success(
+            response?.message || "Successfully subscribed to creator!"
+          );
+        },
+        onError: (error: unknown) => {
+          console.log("Subscription Error:", error);
+          if (error instanceof AxiosError) {
+            console.log("API Error Response:", error.response?.data);
+            // Extract the error message from the response data object
+            const errorData = error.response?.data;
+            const errorMessage =
+              typeof errorData === "object" && errorData !== null
+                ? errorData.error ||
+                  errorData.message ||
+                  "Failed to subscribe. Please try again."
+                : String(errorData || "Failed to subscribe. Please try again.");
+            toast.error(errorMessage);
+          } else if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error("An unexpected error occurred. Please try again.");
+          }
+        },
+      }
+    );
   };
 
   // const handleChatClick = () => {

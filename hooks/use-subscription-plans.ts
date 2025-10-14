@@ -26,7 +26,10 @@ export const useSubscribe = () => {
       creatorId: number;
       subscriptionPlanId: number;
     }) => {
-      const response = await apiClient.post("/subscription/subscribe", {
+      const response = await apiClient.post<{
+        success: boolean;
+        message: string;
+      }>("/subscription/subscribe", {
         creatorId,
         subscriptionPlanId,
       });
