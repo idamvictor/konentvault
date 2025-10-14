@@ -422,14 +422,14 @@ export function CreatePostForm() {
               >
                 <SmileIcon className="h-5 w-5" />
               </Button>
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="icon"
                 className="text-muted-foreground hover:text-purple-600"
                 onClick={() => setShowPaymentOptions(!showPaymentOptions)}
               >
                 <DollarSign className="h-5 w-5" />
-              </Button>
+              </Button> */}
             </div>
 
             <div className="flex items-center gap-2">
